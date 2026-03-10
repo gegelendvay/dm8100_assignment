@@ -13,6 +13,14 @@ void multiply_matrix(double *A, double *B, double *C, int N) {
     }
 }
 
+double checksum(double *C, int N) {
+    double sum = 0.0;
+    for(int i=0; i<N*N; i++) {
+        sum += C[i];
+    }
+    return sum;
+}
+
 int main() {
     int N = 1024;
     double *A = (double*)malloc(N*N*sizeof(double));
@@ -29,8 +37,11 @@ int main() {
     multiply_matrix(A, B, C, N);
     clock_gettime(CLOCK_MONOTONIC, &end);
 
-    double time = (end.tv_sec - start.tv_sec) - (end.tv_sec - start.tv_nsec) / 1e9;
+    double time = (end.tv_sec - start.tv_sec) + (end.tv_sec - start.tv_nsec) / 1e9;
     printf("Time: %f seconds\n", time);
+
+    double checksum_C = checksum(C, N);
+    printf("Checksum: %f\n", checksum_C);
 
     free(A);
     free(B);
