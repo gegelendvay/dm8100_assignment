@@ -27,6 +27,8 @@ int main() {
     double *B = (double*)malloc(N*N*sizeof(double));
     double *C = (double*)malloc(N*N*sizeof(double));
 
+    srand(time(NULL));
+
     for(int i=0; i<N*N; i++) {
         A[i] = (double)rand() / RAND_MAX;
         B[i] = (double)rand() / RAND_MAX;
@@ -37,7 +39,7 @@ int main() {
     multiply_matrix(A, B, C, N);
     clock_gettime(CLOCK_MONOTONIC, &end);
 
-    double time = (end.tv_sec - start.tv_sec) + (end.tv_sec - start.tv_nsec) / 1e9;
+    double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
     printf("Time: %f seconds\n", time);
 
     double checksum_C = checksum(C, N);
