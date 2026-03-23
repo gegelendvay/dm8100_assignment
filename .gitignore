@@ -55,4 +55,4 @@ dkms.conf
 *.dwo
 
 # Ignore executables
-build/
+build/task*
