@@ -5,15 +5,14 @@
 #include <cuda_runtime.h>
 
 __global__ void multiply_matrix(double *A, double *B, double *C, int N) {
-    int tid = blockIdx.x * blockDim.x + threadIdx.x;
-    for(int i=0; i<N; i++) {
-        for(int j=0; j<N; j++) {
-            C[i*N + j] = 0.0;
-            for(int k=0; k<N; k++) {
-                //C[i*N + j] += A[i*N + k] * B[k*N + j];
-                C[i*N + j] += A[i*N + k] * B[k*N + j];
-            }
+    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    if (row < N && col < N) {
+        double c_sum = 0.0;
+        for (int i=0; i<N; i++){
+            c_sum += A[row*N + i] * B[i*N + col];
         }
+        C[row*N + col] = c_sum;
     }
 }
 
