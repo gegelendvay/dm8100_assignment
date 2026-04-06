@@ -49,8 +49,8 @@ int main() {
     cudaMemcpy(d_B, B, sizeof(float) * N, cudaMemcpyHostToDevice);
     cudaMemcpy(d_C, C, sizeof(float) * N, cudaMemcpyHostToDevice);
 
-    //cada thread encuentra uno de los valores de la matriz resultante 
-    //probar cual es la mejor forma de repartilo al ejecutarlo 
+    //each thread computes one of the C matrix elements 
+    //change params to see which is best  
     grid_size =
     block_size = 
 
