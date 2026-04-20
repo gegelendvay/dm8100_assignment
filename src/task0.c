@@ -1,49 +1,92 @@
+/*******************************************************************
+ * Serial implementation of matrix-matrix
+ * multiplication C = A * B for square matrices of size N x N.
+ *
+ * - Allocates A, B, C on the host
+ * - Initializes A and B with a deterministic pattern
+ * - Computes C = A * B using naive IJK loop order
+ * - Times the computation with omp_get_wtime
+ * - Prints runtime and a checksum of C
+ *
+ * This serves as the serial T1 baseline for the other tasks.
+ * 
+* Run:
+ *   gcc src/task0.c -o build/task0 -O3 -fopenmp
+ *   ./build/task0
+ *******************************************************************/
+
+#include <omp.h>
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
 
-void multiply_matrix(double *A, double *B, double *C, int N) {
-    for(int i=0; i<N; i++) {
-        for(int j=0; j<N; j++) {
-            C[i*N + j] = 0.0;
-            for(int k=0; k<N; k++) {
-                C[i*N + j] += A[i*N + k] * B[k*N + j];
-            }
+/* Initialize matrix with a deterministic pattern */
+static void init_matrix(double *A, int N) {
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            A[i * N + j] = (double)((i + j) % 100) / 100.0;
         }
     }
 }
 
-double checksum(double *C, int N) {
-    double sum = 0.0;
-    for(int i=0; i<N*N; i++) {
-        sum += C[i];
+/* Set all entries of matrix A to zero */
+static void zero_matrix(double *A, int N) {
+    for (int i = 0; i < N * N; ++i) {
+        A[i] = 0.0;
     }
-    return sum;
 }
 
-int main() {
-    int N = 1024;
-    double *A = (double*)malloc(N*N*sizeof(double));
-    double *B = (double*)malloc(N*N*sizeof(double));
-    double *C = (double*)malloc(N*N*sizeof(double));
+/* Naive serial matrix-matrix multiplication: C = A * B (IJK order) */
+static void matmul_serial(const double *A, const double *B, double *C, int N) {
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < N; ++j) {
+            double sum = 0.0;
+            for (int k = 0; k < N; ++k) {
+                sum += A[i * N + k] * B[k * N + j];
+            }
+            C[i * N + j] = sum;
+        }
+    }
+}
 
-    srand(time(NULL));
+/* Simple checksum: sum of all elements in C */
+static double checksum(const double *C, int N) {
+    double s = 0.0;
+    for (int i = 0; i < N * N; ++i) {
+        s += C[i];
+    }
+    return s;
+}
 
-    for(int i=0; i<N*N; i++) {
-        A[i] = (double)rand() / RAND_MAX;
-        B[i] = (double)rand() / RAND_MAX;
+int main(int argc, char **argv) {
+    int N = 1024;  /* Default matrix size */
+    if (argc >= 2) {
+        N = atoi(argv[1]);
     }
 
-    struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    multiply_matrix(A, B, C, N);
-    clock_gettime(CLOCK_MONOTONIC, &end);
+    printf("Serial matrix-matrix multiplication, N = %d\n", N);
 
-    double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-    printf("Time: %f seconds\n", time);
+    /* Allocate matrices on the heap */
+    double *A = (double *)malloc((size_t)N * N * sizeof(double));
+    double *B = (double *)malloc((size_t)N * N * sizeof(double));
+    double *C = (double *)malloc((size_t)N * N * sizeof(double));
+    if (!A || !B || !C) {
+        fprintf(stderr, "Allocation failed\n");
+        free(A); free(B); free(C);
+        return EXIT_FAILURE;
+    }
 
-    double checksum_C = checksum(C, N);
-    printf("Checksum: %f\n", checksum_C);
+    init_matrix(A, N);
+    init_matrix(B, N);
+    // zero_matrix(C, N);
+
+    double t0 = omp_get_wtime();
+    matmul_serial(A, B, C, N);
+    double t1 = omp_get_wtime();
+
+    double cs = checksum(C, N);
+    printf("Time (s): %.6f\n", t1 - t0);
+    printf("Checksum(C): %.12e\n", cs);
 
     free(A);
     free(B);
