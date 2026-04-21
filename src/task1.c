@@ -2,15 +2,10 @@
  * OpenMP-parallel matrix-matrix multiplication C = A * B
  * for square matrices of size N x N.
  *
- * - Allocates A, B, C_serial, C_omp on the host
- * - Computes a serial reference C_serial
- * - Computes C_omp in parallel using OpenMP
- * - Measures and prints serial and OpenMP runtimes
- * - Prints checksums and Frobenius norm ||C_serial - C_omp||_F
- *
- * Parallelism:
- * - #pragma omp parallel for collapse(2) schedule(runtime)
- *   so the schedule can be controlled via OMP_SCHEDULE.
+ * - Allocates A, B, C on the host
+ * - Computes C in parallel using OpenMP
+ * - Measures and prints  OpenMP runtimes
+ * - Prints checksums 
  *
  * Run:
  *   gcc lib/matrix.c src/task1.c -o build/task1 -O3 -fopenmp
