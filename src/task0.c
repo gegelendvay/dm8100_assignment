@@ -10,7 +10,7 @@
  *
  * This serves as the serial T1 baseline for the other tasks.
  * 
-* Run:
+ * Run:
  *   gcc src/task0.c -o build/task0 -O3 -fopenmp
  *   ./build/task0
  *******************************************************************/
@@ -26,13 +26,6 @@ static void init_matrix(double *A, int N) {
         for (int j = 0; j < N; ++j) {
             A[i * N + j] = (double)((i + j) % 100) / 100.0;
         }
-    }
-}
-
-/* Set all entries of matrix A to zero */
-static void zero_matrix(double *A, int N) {
-    for (int i = 0; i < N * N; ++i) {
-        A[i] = 0.0;
     }
 }
 
@@ -78,7 +71,6 @@ int main(int argc, char **argv) {
 
     init_matrix(A, N);
     init_matrix(B, N);
-    // zero_matrix(C, N);
 
     double t0 = omp_get_wtime();
     matmul_serial(A, B, C, N);
