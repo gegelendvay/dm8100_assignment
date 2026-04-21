@@ -1,0 +1,11 @@
+Running ./build/task1 (100 times)...
+
+==================================================
+Task: 1
+Command: ./build/task1
+Samples: 100/100
+Average time: 0.108342s
+Min time:     0.088752s
+Max time:     0.135847s
+Last checksum: 2.629676423296e+08
+==================================================
