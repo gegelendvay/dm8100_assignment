@@ -13,7 +13,7 @@
  *   so the schedule can be controlled via OMP_SCHEDULE.
  *
  * Run:
- *   gcc src/task1.c -o build/task1 -O3 -fopenmp
+ *   gcc lib/matrix.c src/task1.c -o build/task1 -O3 -fopenmp
  *   ./build/task1
  *******************************************************************/
 
@@ -21,15 +21,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-/* Initialize matrix with deterministic pattern */
-static void init_matrix(double *A, int N) {
-    for (int i = 0; i < N; ++i) {
-        for (int j = 0; j < N; ++j) {
-            A[i * N + j] = (double)((i + j) % 100) / 100.0;
-        }
-    }
-}
+#include "../lib/matrix.h"
 
 /* OpenMP parallel implementation:
  * - collapse(2) over (i, j)
@@ -47,15 +39,6 @@ static void matmul_omp(const double *A, const double *B, double *C, int N) {
             C[i * N + j] = sum;
         }
     }
-}
-
-/* Sum of all entries in C */
-static double checksum(const double *C, int N) {
-    double s = 0.0;
-    for (int i = 0; i < N * N; ++i) {
-        s += C[i];
-    }
-    return s;
 }
 
 int main(int argc, char **argv) {

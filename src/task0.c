@@ -11,7 +11,7 @@
  * This serves as the serial T1 baseline for the other tasks.
  * 
  * Run:
- *   gcc src/task0.c -o build/task0 -O3 -fopenmp
+ *   gcc lib/matrix.c src/task0.c -o build/task0 -O3 -fopenmp
  *   ./build/task0
  *******************************************************************/
 
@@ -19,15 +19,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-
-/* Initialize matrix with a deterministic pattern */
-static void init_matrix(double *A, int N) {
-    for (int i = 0; i < N; ++i) {
-        for (int j = 0; j < N; ++j) {
-            A[i * N + j] = (double)((i + j) % 100) / 100.0;
-        }
-    }
-}
+#include "../lib/matrix.h"
 
 /* Naive serial matrix-matrix multiplication: C = A * B (IJK order) */
 static void matmul_serial(const double *A, const double *B, double *C, int N) {
@@ -40,15 +32,6 @@ static void matmul_serial(const double *A, const double *B, double *C, int N) {
             C[i * N + j] = sum;
         }
     }
-}
-
-/* Simple checksum: sum of all elements in C */
-static double checksum(const double *C, int N) {
-    double s = 0.0;
-    for (int i = 0; i < N * N; ++i) {
-        s += C[i];
-    }
-    return s;
 }
 
 int main(int argc, char **argv) {
