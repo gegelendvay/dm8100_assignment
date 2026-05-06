@@ -3,6 +3,7 @@
 #include <time.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
+#define CUDA_CHECK(err) {if (err != cudaSuccess){printf("%s in %s at line %d \n", cudaGetErrorString(err), __FILE__, __LINE__);exit(EXIT_FAILURE);}}
 
 __global__ void multiply_matrix(double *A, double *B, double *C, int N) {
     int row = blockIdx.y * blockDim.y + threadIdx.y;
@@ -52,13 +53,19 @@ int main() {
     double *d_B;
     double *d_C;
 
-    cudaMalloc((void**)&d_A, N*N*sizeof(double));
-    cudaMalloc((void**)&d_B, N*N*sizeof(double));
-    cudaMalloc((void**)&d_C, N*N*sizeof(double));
+    cudaError_t all_A = cudaMalloc((void**)&d_A, N*N*sizeof(double));
+    CUDA_CHECK(all_A);
+    cudaError_t all_B = cudaMalloc((void**)&d_B, N*N*sizeof(double));
+    CUDA_CHECK(all_B);
+    cudaError_t all_C = cudaMalloc((void**)&d_C, N*N*sizeof(double));
+    CUDA_CHECK(all_C);
 
-    cudaMemcpy(d_A, A, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_B, B, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
+    cudaError_t mem_A = cudaMemcpy(d_A, A, sizeof(double) * N*N, cudaMemcpyHostToDevice);
+    CUDA_CHECK(mem_A);
+    cudaError_t mem_B = cudaMemcpy(d_B, B, sizeof(double) * N*N, cudaMemcpyHostToDevice);
+    CUDA_CHECK(mem_B);
+    cudaError_t mem_C = cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
+    CUDA_CHECK(mem_C);
 
     //each thread computes one of the C matrix elements 
     //change params to see which is best  
@@ -73,7 +80,8 @@ int main() {
     cudaDeviceSynchronize(); 
     clock_gettime(CLOCK_MONOTONIC, &end);
 
-    cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
+    cudaError_t mem_C = cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
+    CUDA_CHECK(mem_C);
 
     double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
     printf("Time: %f seconds\n", time);
