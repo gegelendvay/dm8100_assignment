@@ -8,7 +8,7 @@
 
 __global__ void tiled_multiply_matrix(double* A, double* B, double* C, int N)
 {
-    //TILE_WIDTH == block_dim necessarily? 
+    
 
     int row = TILE_WIDTH*blockIdx.y + threadIdx.y;
     int col = TILE_WIDTH*blockIdx.x + threadIdx.x;
@@ -83,7 +83,8 @@ int main() {
 
     //each thread computes one of the C matrix elements 
     //change params to see which is best  
-    dim3 block_size(16, 16);
+    //the dimension of the blocks needs to be the same as TILE_WIDTH
+    dim3 block_size(TILE_WIDTH, TILE_WIDTH);
     dim3 grid_size((N + block_size.x - 1) / block_size.x,
                (N + block_size.y - 1) / block_size.y);
 
