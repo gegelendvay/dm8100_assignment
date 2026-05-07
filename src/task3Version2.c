@@ -4,30 +4,44 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #define CUDA_CHECK(err) {if (err != cudaSuccess){printf("%s in %s at line %d \n", cudaGetErrorString(err), __FILE__, __LINE__);exit(EXIT_FAILURE);}}
+#define TILE_WIDTH 16 //needed to be a compile time constant
 
-__global__ void multiply_matrix(double *A, double *B, double *C, int N) {
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
-    if (row < N && col < N) {
-        double c_sum = 0.0;
-        for (int i=0; i<N; i++){
-            c_sum += A[row*N + i] * B[i*N + col];
-        }
-        C[row*N + col] = c_sum;
+__global__ void tiled_multiply_matrix(double* A, double* B, double* C, int N)
+{
+    //TILE_WIDTH == block_dim necessarily? 
+
+    int row = TILE_WIDTH*blockIdx.y + threadIdx.y;
+    int col = TILE_WIDTH*blockIdx.x + threadIdx.x;
+
+    //shared memory  
+    __shared__ double sh_A[TILE_WIDTH][TILE_WIDTH];
+    __shared__ double sh_B[TILE_WIDTH][TILE_WIDTH];
+
+    int num_phases = (N + TILE_WIDTH - 1) / TILE_WIDTH;
+    double value = 0;
+    for (int phase = 0; phase < num_phases; phase++)
+    {
+        int a_col = phase * TILE_WIDTH + threadIdx.x;
+        int b_row = phase * TILE_WIDTH + threadIdx.y;
+        // Load Tiles into shared memory
+        if ((row < N) && ((a_col) < N))
+          sh_A[threadIdx.y][threadIdx.x] = A[(row)*N + a_col];
+        else
+          sh_A[threadIdx.y][threadIdx.x] = 0.0;
+
+        if ((b_row < N) && (col < N))
+          sh_B[threadIdx.y][threadIdx.x] = B[b_row*N+col];
+        else
+          sh_B[threadIdx.y][threadIdx.x] = 0.0;
+        __syncthreads();
+
+        for (int k = 0; k < TILE_WIDTH; k++)
+            value += sh_A[threadIdx.y][k] * sh_B[k][threadIdx.x];
+        __syncthreads();
     }
+    if (row < N && col < N)
+      C[row*N+col] = value;
 }
-
-void multiply_matrix_original(double *A, double *B, double *C, int N) {
-    for(int i=0; i<N; i++) {
-        for(int j=0; j<N; j++) {
-            C[i*N + j] = 0.0;
-            for(int k=0; k<N; k++) {
-                C[i*N + j] += A[i*N + k] * B[k*N + j];
-            }
-        }
-    }
-}
-
 
 double checksum(double *C, int N) {
     double sum = 0.0;
@@ -76,12 +90,11 @@ int main() {
 
     struct timespec start, end;
     clock_gettime(CLOCK_MONOTONIC, &start);
-    multiply_matrix<<<grid_size,block_size>>>(d_A, d_B, d_C, N);
+    tiled_multiply_matrix<<<grid_size,block_size>>>(d_A, d_B, d_C, N);
     cudaDeviceSynchronize(); 
     clock_gettime(CLOCK_MONOTONIC, &end);
 
-    cudaError_t mem_C = cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
-    CUDA_CHECK(mem_C);
+    cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
 
     double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
     printf("Time: %f seconds\n", time);
