@@ -1,15 +1,15 @@
-Running ./build/task1 (100 times)...
+Running ./build/task3 (100 times)...
 
 ==================================================
-Command: ./build/task1
+Command: ./build/task3
 Nodes: 1
 CPU cores: unknown
 CPUs per task: unknown
 MPI tasks: unknown
 GPU cores: 0
 Samples: 100/100
-Average time: 0.688888s
-Min time: 0.586758s
-Max time: 0.791835s
+Average time: 0.000720s
+Min time: 0.000687s
+Max time: 0.000830s
 Last checksum: 2.629676423296e+08
 ==================================================
