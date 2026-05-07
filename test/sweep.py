@@ -1,9 +1,9 @@
 '''
 Run as
-- python test/sweep.py ./build/task1
-- python test/sweep.py 'mpirun -np 4 ./build/task2 1024'
-- python test/sweep.py 'sbatch run_task2.slurm'
-- python test/sweep.py ./build/task3
+- python test/sweep.py ./build/task1 >> test/task1.txt
+- python test/sweep.py 'mpirun -np 4 ./build/task2 1024' >> test/task2.txt
+- python test/sweep.py 'sbatch run_task2.slurm' >> test/task2.txt
+- python test/sweep.py ./build/task3 >> test/task3.txt
 '''
 
 import os
@@ -35,62 +35,79 @@ def parse_gpu_count_from_string(text):
         r"--gres(?:=|\s+)gpu(?::[A-Za-z0-9_-]+)?:(\d+)",
         r"--gpus-per-task(?:=|\s+)(\d+)",
     ]
+
     for pat in patterns:
         m = re.search(pat, text)
         if m:
             return int(m.group(1))
+
     return None
 
 def infer_resources(cmd):
     env = os.environ
+    cmd_str = " ".join(cmd).lower()
 
-    nodes = parse_int(env.get("SLURM_NNODES"))
+    nodes = parse_int(env.get("SLURM_NNODES")) or parse_int(env.get("SLURM_JOB_NUM_NODES"))
+
+    cpus_on_node = (
+        parse_int(env.get("SLURM_CPUS_ON_NODE")) or
+        parse_int(env.get("SLURM_CPUS_PER_NODE")) or
+        parse_int(env.get("SLURM_JOB_CPUS_PER_NODE"))
+    )
+
     cpus_per_task = parse_int(env.get("SLURM_CPUS_PER_TASK"))
     ntasks = parse_int(env.get("SLURM_NTASKS"))
-    gpus = parse_int(env.get("SLURM_GPUS"))
 
-    cmd_str = " ".join(cmd)
+    gpus = (
+        parse_int(env.get("SLURM_GPUS")) or
+        parse_int(env.get("SLURM_GPUS_ON_NODE")) or
+        parse_int(env.get("SLURM_GPUS_PER_NODE")) or
+        parse_int(env.get("SLURM_GPUS_PER_TASK"))
+    )
 
     if nodes is None:
-        for i, tok in enumerate(cmd):
-            if tok.startswith("--nodes="):
-                nodes = parse_int(tok.split("=", 1)[1])
-                break
-            if tok == "--nodes" and i + 1 < len(cmd):
+        for i, arg in enumerate(cmd):
+            if arg == "--nodes" and i + 1 < len(cmd):
                 nodes = parse_int(cmd[i + 1])
+                break
+            if arg.startswith("--nodes="):
+                nodes = parse_int(arg.split("=", 1)[1])
                 break
 
     if ntasks is None:
-        for i, tok in enumerate(cmd):
-            if tok in ("-np", "-n") and i + 1 < len(cmd):
+        for i, arg in enumerate(cmd):
+            if arg in ("-np", "-n") and i + 1 < len(cmd):
                 ntasks = parse_int(cmd[i + 1])
                 break
-            if tok.startswith("--ntasks="):
-                ntasks = parse_int(tok.split("=", 1)[1])
-                break
-            if tok == "--ntasks" and i + 1 < len(cmd):
-                ntasks = parse_int(cmd[i + 1])
+            if arg.startswith("--ntasks="):
+                ntasks = parse_int(arg.split("=", 1)[1])
                 break
 
     if cpus_per_task is None:
-        for i, tok in enumerate(cmd):
-            if tok.startswith("--cpus-per-task="):
-                cpus_per_task = parse_int(tok.split("=", 1)[1])
-                break
-            if tok == "--cpus-per-task" and i + 1 < len(cmd):
+        for i, arg in enumerate(cmd):
+            if arg == "--cpus-per-task" and i + 1 < len(cmd):
                 cpus_per_task = parse_int(cmd[i + 1])
+                break
+            if arg.startswith("--cpus-per-task="):
+                cpus_per_task = parse_int(arg.split("=", 1)[1])
                 break
 
     if gpus is None:
         gpus = parse_gpu_count_from_string(cmd_str)
 
-    cpu_cores = None
+    cpu_cores = cpus_on_node
     if cpus_per_task is not None and ntasks is not None:
         cpu_cores = cpus_per_task * ntasks
     elif cpus_per_task is not None:
         cpu_cores = cpus_per_task
-    elif ntasks is not None and ("mpirun" in cmd or "srun" in cmd):
+    elif ntasks is not None and ("mpirun" in cmd_str or "srun" in cmd_str):
         cpu_cores = ntasks
+
+    if cpu_cores is None:
+        try:
+            cpu_cores = int(subprocess.check_output(["nproc"], text=True).strip())
+        except Exception:
+            cpu_cores = "unknown"
 
     if nodes is None:
         nodes = 1
@@ -100,6 +117,7 @@ def infer_resources(cmd):
 
     return {
         "nodes": nodes,
+        "cpus_on_node": cpus_on_node,
         "cpus_per_task": cpus_per_task,
         "ntasks": ntasks,
         "cpu_cores": cpu_cores,
@@ -142,11 +160,16 @@ def run_sbatch_and_collect(cmd, poll_interval=1.0):
         time.sleep(poll_interval)
 
     out_candidates = [
+        f"build/task0_{jobid}.out",
+        f"build/task1_{jobid}.out",
         f"build/task2_{jobid}.out",
         f"build/task3_{jobid}.out",
         f"slurm-{jobid}.out",
     ]
+
     err_candidates = [
+        f"build/task0_{jobid}.err",
+        f"build/task1_{jobid}.err",
         f"build/task2_{jobid}.err",
         f"build/task3_{jobid}.err",
         f"slurm-{jobid}.err",
@@ -178,22 +201,23 @@ def run_sbatch_and_collect(cmd, poll_interval=1.0):
     return collected
 
 def run_and_parse(cmd, runs=100):
-    times_s = []
+    times = []
     checksums = []
 
     compile_only = (cmd[0] == "nvcc")
-
     actual_runs = 1 if compile_only else runs
 
     for i in range(actual_runs):
+        result = None
+
         if cmd[0] == "sbatch":
             output = run_sbatch_and_collect(cmd)
         else:
             result = subprocess.run(cmd, capture_output=True, text=True)
             output = result.stdout + result.stderr
 
-        if result.returncode != 0 if cmd[0] != "sbatch" else False:
-            print(f"[WARNING] Run {i+1} failed with return code {result.returncode}")
+        if result is not None and result.returncode != 0:
+            print(f"[WARNING] Run {i + 1} failed with return code {result.returncode}")
             print(output.strip())
 
         t_matches_s = time_s_re.findall(output)
@@ -201,23 +225,26 @@ def run_and_parse(cmd, runs=100):
         c_matches = checksum_re.findall(output)
 
         if t_matches_s:
-            times_s.append(float(t_matches_s[-1]))
+            times.append(float(t_matches_s[-1]))
         elif t_matches_ms:
-            times_s.append(float(t_matches_ms[-1]) / 1000.0)
+            times.append(float(t_matches_ms[-1]) / 1000.0)
         elif not compile_only:
             print(
-                f"[WARNING] Run {i+1} produced no parseable time. "
+                f"[WARNING] Run {i + 1} produced no parseable time. "
                 f"Output: {output.strip()}"
             )
 
         if c_matches:
             checksums.append(c_matches[-1])
 
-    return times_s, checksums, compile_only
+    return times, checksums, compile_only
 
 if len(sys.argv) < 2:
     raise SystemExit("Usage: python sweep.py [args...]")
 
+# Support two styles:
+# 1) python sweep.py mpirun -np 4 ./build/task2 1024
+# 2) python sweep.py 'mpirun -np 4 ./build/task2 1024'
 if len(sys.argv) == 2:
     cmd = shlex.split(sys.argv[1])
 else:
@@ -233,7 +260,7 @@ times, checksums, compile_only = run_and_parse(cmd, runs=runs)
 print("\n" + "=" * 50)
 print(f"Command: {' '.join(cmd)}")
 print(f"Nodes: {resources['nodes']}")
-print(f"CPU cores: {resources['cpu_cores'] if resources['cpu_cores'] is not None else 'unknown'}")
+print(f"CPU cores: {resources['cpu_cores']}")
 print(f"CPUs per task: {resources['cpus_per_task'] if resources['cpus_per_task'] is not None else 'unknown'}")
 print(f"MPI tasks: {resources['ntasks'] if resources['ntasks'] is not None else 'unknown'}")
 print(f"GPU cores: {resources['gpus']}")
@@ -243,6 +270,7 @@ if compile_only:
 else:
     if not times:
         raise RuntimeError("No parseable timing output was found.")
+
     avg_time = statistics.mean(times)
     print(f"Samples: {len(times)}/{runs}")
     print(f"Average time: {avg_time:.6f}s")
