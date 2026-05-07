@@ -6,6 +6,18 @@
 #define CUDA_CHECK(err) {if (err != cudaSuccess){printf("%s in %s at line %d \n", cudaGetErrorString(err), __FILE__, __LINE__);exit(EXIT_FAILURE);}}
 #define TILE_WIDTH 16 //needed to be a compile time constant
 
+
+void multiply_matrix_original(double *A, double *B, double *C, int N) {
+    for(int i=0; i<N; i++) {
+        for(int j=0; j<N; j++) {
+            C[i*N + j] = 0.0;
+            for(int k=0; k<N; k++) {
+                C[i*N + j] += A[i*N + k] * B[k*N + j];
+            }
+        }
+    }
+}
+
 __global__ void tiled_multiply_matrix(double* A, double* B, double* C, int N)
 {
     
@@ -78,8 +90,8 @@ int main() {
     CUDA_CHECK(mem_A);
     cudaError_t mem_B = cudaMemcpy(d_B, B, sizeof(double) * N*N, cudaMemcpyHostToDevice);
     CUDA_CHECK(mem_B);
-    cudaError_t mem_C = cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    CUDA_CHECK(mem_C);
+    // cudaError_t mem_C = cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
+    // CUDA_CHECK(mem_C);
 
     //each thread computes one of the C matrix elements 
     //change params to see which is best  
@@ -89,16 +101,39 @@ int main() {
                (N + block_size.y - 1) / block_size.y);
 
 
-    struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    tiled_multiply_matrix<<<grid_size,block_size>>>(d_A, d_B, d_C, N);
-    cudaDeviceSynchronize(); 
-    clock_gettime(CLOCK_MONOTONIC, &end);
+    // struct timespec start, end;
+    // clock_gettime(CLOCK_MONOTONIC, &start);
+    // tiled_multiply_matrix<<<grid_size,block_size>>>(d_A, d_B, d_C, N);
+    // cudaDeviceSynchronize(); 
+    // clock_gettime(CLOCK_MONOTONIC, &end);
 
-    cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
+    // cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
 
-    double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-    printf("Time: %f seconds\n", time);
+    // double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
+    // printf("Time: %f seconds\n", time);
+
+    cudaEvent_t start, stop;
+    CUDA_CHECK(cudaEventCreate(&start));
+    CUDA_CHECK(cudaEventCreate(&stop));
+
+    CUDA_CHECK(cudaEventRecord(start));
+
+    tiled_multiply_matrix<<<grid_size, block_size>>>(d_A, d_B, d_C, N);
+
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaEventRecord(stop));
+    CUDA_CHECK(cudaEventSynchronize(stop));
+
+    float milliseconds = 0.0f;
+    CUDA_CHECK(cudaEventElapsedTime(&milliseconds, start, stop));
+
+    printf("Kernel time: %f ms\n", milliseconds);
+    printf("Kernel time: %f seconds\n", milliseconds / 1000.0f);
+
+    CUDA_CHECK(cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost));
+
+    CUDA_CHECK(cudaEventDestroy(start));
+    CUDA_CHECK(cudaEventDestroy(stop));
 
     double checksum_C = checksum(C, N);
     printf("Checksum: %f\n", checksum_C);
