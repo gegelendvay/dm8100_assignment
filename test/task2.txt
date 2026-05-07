@@ -1,0 +1,23 @@
+Running mpirun -np 4 ./build/task2 1024 (100 times)...
+
+==================================================
+Command: mpirun -np 4 ./build/task2 1024
+Samples: 100/100
+Average time: 0.834519s
+Min time:     0.785915s
+Max time:     0.905534s
+Last checksum: 2.629676423296e+08
+==================================================
+
+
+
+Running sbatch run_task2.slurm (100 times)...
+
+==================================================
+Command: sbatch run_task2.slurm
+Samples: 100/100
+Average time: 0.145141s
+Min time: 0.111989s
+Max time: 0.217297s
+Last checksum: 2.629676423296e+08
+==================================================
