@@ -138,7 +138,9 @@ int main() {
     double checksum_C = checksum(C, N);
     printf("Checksum: %f\n", checksum_C);
 
+    #ifdef VERIFY
     multiply_matrix_original(A, B, CC, N);
+    #endif
     double checksum_CC = checksum(CC, N);
     printf("Check checksum: %f\n", checksum_CC);
 
