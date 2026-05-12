@@ -3,11 +3,12 @@ Run as
 - python test/sweep.py './build/task0 <N>' >> test/task0.txt
 - python test/sweep.py './build/task1 <N>' >> test/task1.txt
 - python test/sweep.py 'mpirun -np <ntasks> --bind-to core --map-by core ./build/task2 <N>' >> test/task2.txt
-- python test/sweep.py './build/task3 <N>' >> test/task3.txt
+- python test/sweep.py './build/task3 <N> <sm_multiplier>' >> test/task3.txt
 
 ToDo
 - python test/sweep.py 'sbatch run_task2.slurm <nodes> <ntasks-per-node> <N>' >> test/task2.txt
 '''
+
 import os
 import re
 import sys
@@ -191,6 +192,6 @@ elif task == "task2":
 
 elif task == "task3":
     gpus, name = _get_gpus()
-    print(f"GPUs/node      : {gpus} ({name})")
+    print(f"GPUs           : {gpus} ({name})")
 
 print("=" * 50)

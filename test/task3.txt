@@ -1,7 +1,14 @@
-Running ./build/task3 1024 (100 times)...
-Average time   : 0.000818s
-Min time       : 0.000677s
-Max time       : 0.012623s
+Running ./build/task3 1024 1 (100 times)...
+Average time   : 0.005136s
+Min time       : 0.004959s
+Max time       : 0.021131s
 Last checksum  : 2.629676423296e+08
-GPUs/node      : 1 (NVIDIA B200)
+GPUs           : 1 (NVIDIA B200)
+==================================================
+Running ./build/task3 1024 4 (100 times)...
+Average time   : 0.001444s
+Min time       : 0.001427s
+Max time       : 0.001480s
+Last checksum  : 2.629676423296e+08
+GPUs           : 1 (NVIDIA B200)
 ==================================================
