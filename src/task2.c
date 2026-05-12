@@ -14,7 +14,6 @@
  *******************************************************************/
 
 #include <mpi.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../lib/matrix.h"
@@ -22,7 +21,7 @@
 /* Local matrix multiply on each rank:
  * - A_local has rows_per_proc rows and N columns
  * - B has N rows/columns and is replicated on all ranks
- * - C_local has rows_per_proc rows
+ * - C_local stores the resulting rows_per_proc rows of C
  */
 static void matmul_local(const double *A_local, const double *B, double *C_local, int N, int rows_per_proc) {
     for (int i = 0; i < rows_per_proc; ++i) {
@@ -73,7 +72,7 @@ int main(int argc, char **argv) {
         MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
     }
 
-    /* Rank 0 holds full A and C; others only have B */
+    /* Rank 0 holds the full A and C; all others only hold B */
     if (rank == 0) {
         A = (double *)malloc((size_t)N * N * sizeof(double));
         C = (double *)malloc((size_t)N * N * sizeof(double));
@@ -81,7 +80,6 @@ int main(int argc, char **argv) {
             fprintf(stderr, "Allocation failed on rank 0\n");
             MPI_Abort(MPI_COMM_WORLD, EXIT_FAILURE);
         }
-
         init_matrix(A, N);
         init_matrix(B, N);
     }

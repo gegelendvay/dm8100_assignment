@@ -1,6 +1,6 @@
 /*******************************************************************
- * Serial implementation of matrix-matrix
- * multiplication C = A * B for square matrices of size N x N.
+ * Serial implementation of matrix-matrix multiplication
+ * C = A * B for square matrices of size N x N.
  *
  * - Allocates A, B, C on the host
  * - Initializes A and B with a deterministic pattern
@@ -9,14 +9,13 @@
  * - Prints runtime and a checksum of C
  *
  * This serves as the serial T1 baseline for the other tasks.
- * 
+ *
  * Run:
  *   gcc lib/matrix.c src/task0.c -o build/task0 -O3 -fopenmp
  *   ./build/task0
  *******************************************************************/
 
 #include <omp.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../lib/matrix.h"
@@ -35,7 +34,7 @@ static void matmul_serial(const double *A, const double *B, double *C, int N) {
 }
 
 int main(int argc, char **argv) {
-    int N = 1024;  /* Default matrix size */
+    int N = 1024; /* Default matrix size */
     if (argc >= 2) {
         N = atoi(argv[1]);
     }

@@ -3,9 +3,10 @@
  * for square matrices of size N x N.
  *
  * - Allocates A, B, C on the host
+ * - Initializes A and B with a deterministic pattern
  * - Computes C in parallel using OpenMP
- * - Measures and prints  OpenMP runtimes
- * - Prints checksums 
+ * - Measures and prints OpenMP runtime
+ * - Prints checksum of C
  *
  * Run:
  *   gcc lib/matrix.c src/task1.c -o build/task1 -O3 -fopenmp
@@ -13,15 +14,14 @@
  *******************************************************************/
 
 #include <omp.h>
-#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "../lib/matrix.h"
 
-/* OpenMP parallel implementation:
- * - collapse(2) over (i, j)
+/* OpenMP parallel matrix-matrix multiplication:
+ * - collapse(2) over (i, j) to expose more parallelism
  * - schedule(runtime) to experiment with static/dynamic/guided
- *   via OMP_SCHEDULE.
+ *   via OMP_SCHEDULE environment variable
  */
 static void matmul_omp(const double *A, const double *B, double *C, int N) {
 #pragma omp parallel for collapse(2) schedule(runtime)
@@ -37,18 +37,17 @@ static void matmul_omp(const double *A, const double *B, double *C, int N) {
 }
 
 int main(int argc, char **argv) {
-    int N = 1024;  /* Default size */
+    int N = 1024; /* Default matrix size */
     if (argc >= 2) {
         N = atoi(argv[1]);
     }
-    
-    int threads = omp_get_max_threads();
-    printf("Using %d OpenMP threads\n", threads);
-    omp_set_num_threads(threads);
 
+    int threads = omp_get_max_threads();
+    omp_set_num_threads(threads);
+    printf("Using %d OpenMP threads\n", threads);
     printf("OpenMP matrix-matrix multiplication, N = %d\n", N);
 
-    /* Allocate matrices */
+    /* Allocate matrices on the heap */
     double *A = (double *)malloc((size_t)N * N * sizeof(double));
     double *B = (double *)malloc((size_t)N * N * sizeof(double));
     double *C = (double *)malloc((size_t)N * N * sizeof(double));
