@@ -64,8 +64,8 @@ int main() {
     CUDA_CHECK(mem_A);
     cudaError_t mem_B = cudaMemcpy(d_B, B, sizeof(double) * N*N, cudaMemcpyHostToDevice);
     CUDA_CHECK(mem_B);
-    cudaError_t mem_C = cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    CUDA_CHECK(mem_C);
+    // cudaError_t mem_C = cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
+    // CUDA_CHECK(mem_C);
 
     //each thread computes one of the C matrix elements 
     //change params to see which is best  
