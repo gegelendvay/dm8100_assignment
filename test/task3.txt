@@ -1,15 +1,7 @@
-Running ./build/task3 (100 times)...
-
-==================================================
-Command: ./build/task3
-Nodes: 1
-CPU cores: 384
-CPUs per task: unknown
-MPI tasks: unknown
-GPU cores: 0
-Samples: 100/100
-Average time: 0.000718s
-Min time: 0.000680s
-Max time: 0.000839s
-Last checksum: 2.629676423296e+08
+Running ./build/task3 1024 (100 times)...
+Average time   : 0.000818s
+Min time       : 0.000677s
+Max time       : 0.012623s
+Last checksum  : 2.629676423296e+08
+GPUs/node      : 1 (NVIDIA B200)
 ==================================================

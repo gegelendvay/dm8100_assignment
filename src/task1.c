@@ -41,6 +41,10 @@ int main(int argc, char **argv) {
     if (argc >= 2) {
         N = atoi(argv[1]);
     }
+    
+    int threads = omp_get_max_threads();
+    printf("Using %d OpenMP threads\n", threads);
+    omp_set_num_threads(threads);
 
     printf("OpenMP matrix-matrix multiplication, N = %d\n", N);
 

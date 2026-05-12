@@ -1,0 +1,6 @@
+Running ./build/task0 1024 (100 times)...
+Average time   : 5.246386s
+Min time       : 5.034959s
+Max time       : 5.484800s
+Last checksum  : 2.629676423296e+08
+==================================================

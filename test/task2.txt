@@ -1,0 +1,8 @@
+Running mpirun -np 96 --bind-to core --map-by core ./build/task2 1056 (100 times)...
+Average time   : 0.018705s
+Min time       : 0.017704s
+Max time       : 0.029604s
+Last checksum  : 2.887028114080e+08
+CPU/node       : 48
+Nodes          : 2
+==================================================
