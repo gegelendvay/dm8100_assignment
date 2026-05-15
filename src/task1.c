@@ -4,11 +4,11 @@
  *
  * - Allocates A, B, C on the host
  * - Initializes A and B with a deterministic pattern
- * - Computes C in parallel using OpenMP (and/or BLAS GEMM)
+ * - Computes C
  * - Measures and prints runtime
  * - Prints checksum of C
  *
- * Build (example with OpenBLAS):
+ * Build and run:
  *   gcc lib/matrix.c src/task1.c -o build/task1 -O3 -fopenmp -lopenblas
  *   ./build/task1 [N]
  *******************************************************************/
@@ -16,6 +16,7 @@
 #include <omp.h>
 #include <cblas.h>
 #include <stdio.h>
+#include <string.h>
 #include <stdlib.h>
 #include "../lib/matrix.h"
 
@@ -33,6 +34,25 @@ static void matmul_omp(const double *A, const double *B, double *C, int N) {
                 sum += A[i * N + k] * B[k * N + j];
             }
             C[i * N + j] = sum;
+        }
+    }
+}
+
+/* OpenMP parallel matrix-matrix multiplication in ikj order:
+ *  - initialise C
+ *  - i and k are outer loops, j is inner
+ *  - parallelize over i with a normal parallel for
+ *  - each thread computes whole rows of C
+ */
+static void matmul_omp_ikj(const double *A, const double *B, double *C, int N) {
+    memset(C, 0, (size_t)N * N * sizeof(double));
+    #pragma omp parallel for schedule(static)
+    for (int i = 0; i < N; ++i) {
+        for (int k = 0; k < N; ++k) {
+            double aik = A[i * N + k];
+            for (int j = 0; j < N; ++j) {
+                C[i * N + j] += aik * B[k * N + j];
+            }
         }
     }
 }
@@ -68,7 +88,7 @@ static void matmul_omp_blocked(const double *A, const double *B, double *C, int 
     }
 }
 
-/* NEW: BLAS GEMM version using row-major layout via CBLAS.
+/* BLAS GEMM version using row-major layout via CBLAS.
  * Computes C = A * B for N x N matrices (double precision).
  */
 static void matmul_blas(const double *A, const double *B, double *C, int N) {
@@ -108,14 +128,7 @@ int main(int argc, char **argv) {
     init_matrix(B, N);
 
     double t0 = omp_get_wtime();
-
-    /* Choose which implementation to time:
-     *   matmul_omp(A, B, C, N);
-     *   matmul_omp_blocked(A, B, C, N);
-     *   matmul_blas(A, B, C, N);   // BLAS GEMM
-     */
-    matmul_blas(A, B, C, N);  /* NEW: use BLAS by default */
-
+    matmul_omp_ikj(A, B, C, N);
     double t1 = omp_get_wtime();
 
     double cs = checksum(C, N);
