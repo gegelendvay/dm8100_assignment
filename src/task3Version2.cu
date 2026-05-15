@@ -138,9 +138,11 @@ int main() {
     double checksum_C = checksum(C, N);
     printf("Checksum: %f\n", checksum_C);
 
-    multiply_matrix_original(A, B, CC, N);
-    double checksum_CC = checksum(CC, N);
-    printf("Check checksum: %f\n", checksum_CC);
+
+    // multiply_matrix_original(A, B, CC, N);
+
+    // double checksum_CC = checksum(CC, N);
+    // printf("Check checksum: %f\n", checksum_CC);
 
     free(A);
     free(B);

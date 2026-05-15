@@ -1,0 +1,163 @@
+100 executions
+
+N = 1024
+
+NAIVE IMPLEMENTATION (NO TILE_WIDTH)
+
+==================================================
+Command: ./task3V1
+Samples: 100/100
+Average time: 0.000704 s
+Min time: 0.000685 s
+Max time: 0.000844 s
+Std dev: 0.000019 s
+Last checksum: 268434737.2705729902
+==================================================
+
+TILE_WIDTH = 8
+
+==================================================
+Command: ./task3 1024
+Samples: 100/100
+Average kernel time: 0.544256 ms
+Average kernel time: 0.000544 s
+Min kernel time: 0.530976 ms
+Max kernel time: 0.568320 ms
+Std dev: 0.008814 ms
+Last checksum: 268333792.0000000000
+==================================================
+
+TILE_WIDTH = 16
+
+==================================================
+Command: ./task3 1024
+Samples: 100/100
+Average kernel time: 0.393852 ms
+Average kernel time: 0.000394 s
+Min kernel time: 0.376416 ms
+Max kernel time: 0.422752 ms
+Std dev: 0.009833 ms
+Last checksum: 268333792.0000000000
+==================================================
+
+TILE_WIDTH = 32
+
+==================================================
+Command: ./task3 1024
+Samples: 100/100
+Average kernel time: 0.363184 ms
+Average kernel time: 0.000363 s
+Min kernel time: 0.342944 ms
+Max kernel time: 0.445248 ms
+Std dev: 0.015836 ms
+Last checksum: 268333792.0000000000
+==================================================
+
+
+N = 2048
+
+NAIVE IMPLEMENTATION (NO TILE_WIDTH)
+
+==================================================
+Command: ./task3V1
+Samples: 100/100
+Average time: 0.004020 s
+Min time: 0.003981 s
+Max time: 0.004158 s
+Std dev: 0.000029 s
+Last checksum: 2147304039.8719689846
+==================================================
+
+TILE_WIDTH = 8
+
+==================================================
+Command: ./task3 2048
+Samples: 100/100
+Average kernel time: 3.198241 ms
+Average kernel time: 0.003198 s
+Min kernel time: 3.179104 ms
+Max kernel time: 3.355808 ms
+Std dev: 0.018356 ms
+Last checksum: 2147310208.0000000000
+==================================================
+
+TILE_WIDTH = 16
+
+==================================================
+Command: ./task3 2048
+Samples: 100/100
+Average kernel time: 2.064043 ms
+Average kernel time: 0.002064 s
+Min kernel time: 2.048128 ms
+Max kernel time: 2.093216 ms
+Std dev: 0.007648 ms
+Last checksum: 2147310208.0000000000
+==================================================
+
+TILE_WIDTH = 32
+
+==================================================
+Command: ./task3 2048
+Samples: 100/100
+Average kernel time: 1.844566 ms
+Average kernel time: 0.001845 s
+Min kernel time: 1.826784 ms
+Max kernel time: 1.928192 ms
+Std dev: 0.013900 ms
+Last checksum: 2147310208.0000000000
+==================================================
+
+
+N = 4096
+
+
+NAIVE IMPLEMENTATION (NO TILE_WIDTH)
+
+==================================================
+Command: ./task3
+Samples: 100/100
+Average time: 0.035266 s
+Min time: 0.035203 s
+Max time: 0.035372 s
+Std dev: 0.000043 s
+Last checksum: 17178723430.2688064575
+==================================================
+
+TILE_WIDTH = 8
+
+==================================================
+Command: ./task3 4096
+Samples: 100/100
+Average kernel time: 24.170176 ms
+Average kernel time: 0.024170 s
+Min kernel time: 24.137793 ms
+Max kernel time: 24.298624 ms
+Std dev: 0.037796 ms
+Last checksum: 17179916288.0000000000
+==================================================
+
+TILE_WIDTH = 16
+
+==================================================
+Command: ./task3 4096
+Samples: 100/100
+Average kernel time: 15.169878 ms
+Average kernel time: 0.015170 s
+Min kernel time: 15.134208 ms
+Max kernel time: 15.404640 ms
+Std dev: 0.049091 ms
+Last checksum: 17179916288.0000000000
+==================================================
+
+TILE_WIDTH = 32
+
+==================================================
+Command: ./task3 4096
+Samples: 100/100
+Average kernel time: 13.430153 ms
+Average kernel time: 0.013430 s
+Min kernel time: 13.380928 ms
+Max kernel time: 13.562848 ms
+Std dev: 0.048349 ms
+Last checksum: 17179916288.0000000000
+==================================================
