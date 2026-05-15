@@ -1,6 +1,14 @@
+matmul_serial - 16 vCPU
 Running ./build/task0 1024 (100 times)...
-Average time   : 5.246386s
-Min time       : 5.034959s
-Max time       : 5.484800s
+Average time   : 5.390282s
+Min time       : 4.655944s
+Max time       : 6.341803s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_serial_ikj - 16 vCPU
+Running ./build/task0 1024 (100 times)...
+Average time   : 0.318166s
+Min time       : 0.281123s
+Max time       : 0.436473s
 Last checksum  : 2.629676423296e+08
 ==================================================
