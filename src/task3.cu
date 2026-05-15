@@ -3,20 +3,10 @@
 #include <time.h>
 #include <cuda.h>
 #include <cuda_runtime.h>
+//Macro that checks if CUDA operation fails
 #define CUDA_CHECK(err) {if (err != cudaSuccess){printf("%s in %s at line %d \n", cudaGetErrorString(err), __FILE__, __LINE__);exit(EXIT_FAILURE);}}
 
-__global__ void multiply_matrix(double *A, double *B, double *C, int N) {
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
-    if (row < N && col < N) {
-        double c_sum = 0.0;
-        for (int i=0; i<N; i++){
-            c_sum += A[row*N + i] * B[i*N + col];
-        }
-        C[row*N + col] = c_sum;
-    }
-}
-
+//CPU matrix multiplication and checksum
 void multiply_matrix_original(double *A, double *B, double *C, int N) {
     for(int i=0; i<N; i++) {
         for(int j=0; j<N; j++) {
@@ -27,8 +17,6 @@ void multiply_matrix_original(double *A, double *B, double *C, int N) {
         }
     }
 }
-
-
 double checksum(double *C, int N) {
     double sum = 0.0;
     for(int i=0; i<N*N; i++) {
@@ -37,8 +25,24 @@ double checksum(double *C, int N) {
     return sum;
 }
 
+//Function that runs on the GPU. Each CUDA thread computes one element of matrix C. 
+__global__ void multiply_matrix(double *A, double *B, double *C, int N) {
+    //Finds which row and column thread computes. 
+    //blockIdx identifies which block, blockDim size of block and threadIdx identifies which thread within the block
+    int row = blockIdx.y * blockDim.y + threadIdx.y;
+    int col = blockIdx.x * blockDim.x + threadIdx.x;
+    if (row < N && col < N) { //So that no threads outside boundaries do anything
+        double c_sum = 0.0; //Actual multiplication part. Each GPU thread computes one output cell of C. It loops through one row of A and one column of B
+        for (int i=0; i<N; i++){
+            c_sum += A[row*N + i] * B[i*N + col];
+        }
+        C[row*N + col] = c_sum;
+    }
+}
+
 int main() {
     int N = 1024;
+    
     double *A = (double*)malloc(N*N*sizeof(double));
     double *B = (double*)malloc(N*N*sizeof(double));
     double *C = (double*)malloc(N*N*sizeof(double));
@@ -53,6 +57,7 @@ int main() {
     double *d_B;
     double *d_C;
 
+    //GPU memory allocation. Device memory allocation. 
     cudaError_t all_A = cudaMalloc((void**)&d_A, N*N*sizeof(double));
     CUDA_CHECK(all_A);
     cudaError_t all_B = cudaMalloc((void**)&d_B, N*N*sizeof(double));
@@ -60,26 +65,28 @@ int main() {
     cudaError_t all_C = cudaMalloc((void**)&d_C, N*N*sizeof(double));
     CUDA_CHECK(all_C);
 
+    //Copy data to the GPU
     cudaError_t mem_A = cudaMemcpy(d_A, A, sizeof(double) * N*N, cudaMemcpyHostToDevice);
     CUDA_CHECK(mem_A);
     cudaError_t mem_B = cudaMemcpy(d_B, B, sizeof(double) * N*N, cudaMemcpyHostToDevice);
     CUDA_CHECK(mem_B);
-    // cudaError_t mem_C = cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    // CUDA_CHECK(mem_C);
 
-    //each thread computes one of the C matrix elements 
-    //change params to see which is best  
+    //change params to see which is best
+    //Each block has 16x16 threads
     dim3 block_size(16, 16);
+    //Calculates how many blocks are needed to cover the entire matrix 
     dim3 grid_size((N + block_size.x - 1) / block_size.x,
                (N + block_size.y - 1) / block_size.y);
 
 
+    //Timing GPU execution
     struct timespec start, end;
     clock_gettime(CLOCK_MONOTONIC, &start);
     multiply_matrix<<<grid_size,block_size>>>(d_A, d_B, d_C, N);
-    cudaDeviceSynchronize(); 
+    cudaDeviceSynchronize(); //because kernel launch is async
     clock_gettime(CLOCK_MONOTONIC, &end);
 
+    //Copy result into CPU mem form GPU mem
     cudaError_t mem_C = cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
     CUDA_CHECK(mem_C);
 
@@ -97,7 +104,8 @@ int main() {
     free(B);
     free(C);
     free(CC);
-    
+
+    //Free GPU memory
     cudaFree(d_A);
     cudaFree(d_B);
     cudaFree(d_C);

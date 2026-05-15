@@ -4,6 +4,7 @@
 #include <cuda.h>
 #include <cuda_runtime.h>
 #define CUDA_CHECK(err) {if (err != cudaSuccess){printf("%s in %s at line %d \n", cudaGetErrorString(err), __FILE__, __LINE__);exit(EXIT_FAILURE);}}
+//Difference with version1 (task3.cu): first version reads all needed values from global memory. This version uses shared memory. 
 #define TILE_WIDTH 16 //needed to be a compile time constant
 
 
@@ -25,10 +26,13 @@ __global__ void tiled_multiply_matrix(double* A, double* B, double* C, int N)
     int row = TILE_WIDTH*blockIdx.y + threadIdx.y;
     int col = TILE_WIDTH*blockIdx.x + threadIdx.x;
 
-    //shared memory  
+    //shared memory allocation
+    //Instead of every thread repeatedly reading from slow global memory, the block first loads a tile of A and a tile of B into shared memory. 
+    //Then all threads reuse those values.
     __shared__ double sh_A[TILE_WIDTH][TILE_WIDTH];
     __shared__ double sh_B[TILE_WIDTH][TILE_WIDTH];
 
+    //A phase is one iteration where the block loads one tile of A and one tile of B into shared memory, computes a partial dot product, and accumulates it into the final matrix value.
     int num_phases = (N + TILE_WIDTH - 1) / TILE_WIDTH;
     double value = 0;
     for (int phase = 0; phase < num_phases; phase++)
@@ -71,6 +75,7 @@ int main() {
     double *CC = (double*)malloc(N*N*sizeof(double));
     srand(time(NULL));
 
+    //Values between 0 and 1 
     for(int i=0; i<N*N; i++) {
         A[i] = (double)rand() / RAND_MAX;
         B[i] = (double)rand() / RAND_MAX;
@@ -90,8 +95,7 @@ int main() {
     CUDA_CHECK(mem_A);
     cudaError_t mem_B = cudaMemcpy(d_B, B, sizeof(double) * N*N, cudaMemcpyHostToDevice);
     CUDA_CHECK(mem_B);
-    // cudaError_t mem_C = cudaMemcpy(d_C, C, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    // CUDA_CHECK(mem_C);
+
 
     //each thread computes one of the C matrix elements 
     //change params to see which is best  
@@ -100,17 +104,6 @@ int main() {
     dim3 grid_size((N + block_size.x - 1) / block_size.x,
                (N + block_size.y - 1) / block_size.y);
 
-
-    // struct timespec start, end;
-    // clock_gettime(CLOCK_MONOTONIC, &start);
-    // tiled_multiply_matrix<<<grid_size,block_size>>>(d_A, d_B, d_C, N);
-    // cudaDeviceSynchronize(); 
-    // clock_gettime(CLOCK_MONOTONIC, &end);
-
-    // cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
-
-    // double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-    // printf("Time: %f seconds\n", time);
 
     cudaEvent_t start, stop;
     CUDA_CHECK(cudaEventCreate(&start));
