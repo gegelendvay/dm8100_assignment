@@ -12,3 +12,24 @@ Min time       : 0.281123s
 Max time       : 0.436473s
 Last checksum  : 2.629676423296e+08
 ==================================================
+matmul_serial_ikj - 48 vCPU
+Running ./build/task0 1024 (100 times)...
+Average time   : 0.112262s
+Min time       : 0.107847s
+Max time       : 0.120425s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_serial_ikj - 48 vCPU
+Running ./build/task0 2048 (100 times)...
+Average time   : 1.514300s
+Min time       : 0.982966s
+Max time       : 2.180879s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_serial_ikj - 48 vCPU
+Running ./build/task0 4096 (100 times)...
+Average time   : 16.043242s
+Min time       : 15.447229s
+Max time       : 17.487537s
+Last checksum  : 1.683802435905e+10
+==================================================
