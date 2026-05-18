@@ -17,7 +17,14 @@ sudo apt -y install cuda-toolkit
 echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.bashrc
 echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
 sudo apt -y install libopenblas-dev
+source ~/.bashrc
 ```
+
+> [!IMPORTANT]  
+> **Operating System:** Ubuntu 24.04  
+> **Platform:** UCloud
+> **Documentation**: https://docs.cloud.sdu.dk/Apps/terminal.html  
+> **GPU:** NVIDIA B200  
 
 ## Usage
 Compile and execute the files using the commands specified in each file's header.
