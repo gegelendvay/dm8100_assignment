@@ -1,114 +1,192 @@
+/*******************************************************************
+ * CUDA-based matrix-matrix multiplication on the GPU.
+ * C = A * B for square matrices of size N x N.
+ *
+ * - Allocates A, B, C on the host
+ * - Initializes A and B with a deterministic pattern via init_matrix
+ * - Copies A and B to the device
+ * - Launches a grid-stride CUDA kernel that computes C = A * B
+ * - Times only the kernel execution with CUDA events (kernel time)
+ * - Copies C back to the host
+ * - Prints kernel runtime (in seconds and milliseconds) and checksum
+ *
+ * This serves as the GPU T3 baseline comparable to the CPU/OpenMP/MPI
+ * implementations, which also time only the main compute kernel.
+ *
+ * Launch configuration for strong scaling on a single GPU:
+ * - Block size: fixed at THREADS_PER_BLOCK (128)
+ * - Grid size:  num_blocks = num_sms * sm_multiplier
+ *   where:
+ *     num_sms      = number of streaming multiprocessors on the device
+ *     sm_multiplier is passed as argv[2]
+ *   e.g. sm_multiplier = 1  -> one block per SM
+ *        sm_multiplier = 4  -> four blocks per SM
+ * - Each thread computes multiple C(i,j) elements using a grid-stride loop
+ *
+ * Build and run:
+ *   nvcc lib/matrix.c src/task3.cu -o build/task3 -O3
+ *   ./build/task3             # N = 1024, sm_multiplier = 1
+ *   ./build/task3 2048 1      # N = 2048, one block per SM
+ *   ./build/task3 2048 4      # N = 2048, four blocks per SM
+ *******************************************************************/
+
 #include <stdio.h>
 #include <stdlib.h>
-#include <time.h>
-#include <cuda.h>
 #include <cuda_runtime.h>
-//Macro that checks if CUDA operation fails
-#define CUDA_CHECK(err) {if (err != cudaSuccess){printf("%s in %s at line %d \n", cudaGetErrorString(err), __FILE__, __LINE__);exit(EXIT_FAILURE);}}
+#include "../lib/matrix.h"
 
-//CPU matrix multiplication and checksum
-void multiply_matrix_original(double *A, double *B, double *C, int N) {
-    for(int i=0; i<N; i++) {
-        for(int j=0; j<N; j++) {
-            C[i*N + j] = 0.0;
-            for(int k=0; k<N; k++) {
-                C[i*N + j] += A[i*N + k] * B[k*N + j];
-            }
+/* Fixed threads per block:
+ *  - 128 threads is a reasonable choice to keep the SM busy
+ *  - This constant is kept the same across experiments so that
+ *    strong scaling is driven by the number of blocks (SMs used),
+ *    not by changing the block size.
+ */
+#define THREADS_PER_BLOCK 128
+
+/* Convenience macro: check every CUDA API call and abort on error */
+#define CUDA_CHECK(call)                                                       \
+    do {                                                                       \
+        cudaError_t err = (call);                                              \
+        if (err != cudaSuccess) {                                              \
+            fprintf(stderr, "CUDA error %s at %s:%d\n",                       \
+                    cudaGetErrorString(err), __FILE__, __LINE__);              \
+            exit(EXIT_FAILURE);                                                \
+        }                                                                      \
+    } while (0)
+
+/* -----------------------------------------------------------------------
+ * Grid-stride matrix-matrix multiplication kernel:
+ *
+ *  - A, B, C are stored in row-major layout (N x N)
+ *  - We conceptually flatten C into a 1D array of length N*N
+ *  - total_threads = gridDim.x * blockDim.x
+ *  - Each thread starts at its own index 'tid' in [0, N*N) and then
+ *    steps through the flat C array with stride 'total_threads':
+ *
+ *        for (idx = tid; idx < N*N; idx += total_threads) { ... }
+ *
+ *  - For each flat index idx, we recover (row, col) via:
+ *
+ *        row = idx / N
+ *        col = idx % N
+ *
+ *  - This allows us to:
+ *      * keep block size fixed (THREADS_PER_BLOCK)
+ *      * vary only the grid size (number of blocks) to change how many
+ *        SMs are used, which is convenient for strong scaling experiments
+ * ----------------------------------------------------------------------- */
+__global__ static void matmul_stride(const double *A, const double *B,
+                                     double *C, int N) {
+    int total_threads = gridDim.x * blockDim.x;
+    int tid           = blockIdx.x * blockDim.x + threadIdx.x;
+    int total_elems   = N * N;
+
+    /* Each thread strides over the flat C array */
+    for (int idx = tid; idx < total_elems; idx += total_threads) {
+        int row = idx / N;
+        int col = idx % N;
+
+        double sum = 0.0;
+        for (int k = 0; k < N; ++k) {
+            sum += A[row * N + k] * B[k * N + col];
         }
-    }
-}
-double checksum(double *C, int N) {
-    double sum = 0.0;
-    for(int i=0; i<N*N; i++) {
-        sum += C[i];
-    }
-    return sum;
-}
-
-//Function that runs on the GPU. Each CUDA thread computes one element of matrix C. 
-__global__ void multiply_matrix(double *A, double *B, double *C, int N) {
-    //Finds which row and column thread computes. 
-    //blockIdx identifies which block, blockDim size of block and threadIdx identifies which thread within the block
-    int row = blockIdx.y * blockDim.y + threadIdx.y;
-    int col = blockIdx.x * blockDim.x + threadIdx.x;
-    if (row < N && col < N) { //So that no threads outside boundaries do anything
-        double c_sum = 0.0; //Actual multiplication part. Each GPU thread computes one output cell of C. It loops through one row of A and one column of B
-        for (int i=0; i<N; i++){
-            c_sum += A[row*N + i] * B[i*N + col];
-        }
-        C[row*N + col] = c_sum;
+        C[idx] = sum;
     }
 }
 
-int main() {
-    int N = 1024;
-    
-    double *A = (double*)malloc(N*N*sizeof(double));
-    double *B = (double*)malloc(N*N*sizeof(double));
-    double *C = (double*)malloc(N*N*sizeof(double));
-    double *CC = (double*)malloc(N*N*sizeof(double));
-    srand(time(NULL));
+int main(int argc, char **argv) {
+    int N             = 1024; /* Default matrix size */
+    int sm_multiplier = 1;    /* Default: one block per SM */
 
-    for(int i=0; i<N*N; i++) {
-        A[i] = (double)rand() / RAND_MAX;
-        B[i] = (double)rand() / RAND_MAX;
+    if (argc >= 2) {
+        N = atoi(argv[1]);
     }
-    double *d_A;
-    double *d_B;
-    double *d_C;
+    if (argc >= 3) {
+        sm_multiplier = atoi(argv[2]);
+    }
 
-    //GPU memory allocation. Device memory allocation. 
-    cudaError_t all_A = cudaMalloc((void**)&d_A, N*N*sizeof(double));
-    CUDA_CHECK(all_A);
-    cudaError_t all_B = cudaMalloc((void**)&d_B, N*N*sizeof(double));
-    CUDA_CHECK(all_B);
-    cudaError_t all_C = cudaMalloc((void**)&d_C, N*N*sizeof(double));
-    CUDA_CHECK(all_C);
+    /* Query the number of SMs on the current device (device 0) */
+    int num_sms = 0;
+    CUDA_CHECK(cudaDeviceGetAttribute(&num_sms,
+                                      cudaDevAttrMultiProcessorCount, 0));
 
-    //Copy data to the GPU
-    cudaError_t mem_A = cudaMemcpy(d_A, A, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    CUDA_CHECK(mem_A);
-    cudaError_t mem_B = cudaMemcpy(d_B, B, sizeof(double) * N*N, cudaMemcpyHostToDevice);
-    CUDA_CHECK(mem_B);
+    int num_blocks = num_sms * sm_multiplier;
 
-    //change params to see which is best
-    //Each block has 16x16 threads
-    dim3 block_size(16, 16);
-    //Calculates how many blocks are needed to cover the entire matrix 
-    dim3 grid_size((N + block_size.x - 1) / block_size.x,
-               (N + block_size.y - 1) / block_size.y);
+    printf("CUDA grid-stride matrix-matrix multiplication\n");
+    printf("  N               = %d\n", N);
+    printf("  SMs on device   = %d\n", num_sms);
+    printf("  sm_multiplier   = %d\n", sm_multiplier);
+    printf("  Grid  (blocks)  = %d\n", num_blocks);
+    printf("  Block (threads) = %d\n", THREADS_PER_BLOCK);
 
+    size_t bytes = (size_t)N * N * sizeof(double);
 
-    //Timing GPU execution
-    struct timespec start, end;
-    clock_gettime(CLOCK_MONOTONIC, &start);
-    multiply_matrix<<<grid_size,block_size>>>(d_A, d_B, d_C, N);
-    cudaDeviceSynchronize(); //because kernel launch is async
-    clock_gettime(CLOCK_MONOTONIC, &end);
+    /* Allocate matrices on the host */
+    double *A = (double *)malloc(bytes);
+    double *B = (double *)malloc(bytes);
+    double *C = (double *)malloc(bytes);
+    if (!A || !B || !C) {
+        fprintf(stderr, "Host allocation failed\n");
+        free(A); free(B); free(C);
+        return EXIT_FAILURE;
+    }
 
-    //Copy result into CPU mem form GPU mem
-    cudaError_t mem_C = cudaMemcpy(C, d_C, sizeof(double)*N*N, cudaMemcpyDeviceToHost);
-    CUDA_CHECK(mem_C);
+    init_matrix(A, N);
+    init_matrix(B, N);
 
-    double time = (end.tv_sec - start.tv_sec) + (end.tv_nsec - start.tv_nsec) / 1e9;
-    printf("Time: %f seconds\n", time);
+    /* Allocate matrices on the device */
+    double *d_A = NULL, *d_B = NULL, *d_C = NULL;
+    CUDA_CHECK(cudaMalloc((void **)&d_A, bytes));
+    CUDA_CHECK(cudaMalloc((void **)&d_B, bytes));
+    CUDA_CHECK(cudaMalloc((void **)&d_C, bytes));
 
-    double checksum_C = checksum(C, N);
-    printf("Checksum: %f\n", checksum_C);
+    /* Copy inputs to device and zero C */
+    CUDA_CHECK(cudaMemcpy(d_A, A, bytes, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemcpy(d_B, B, bytes, cudaMemcpyHostToDevice));
+    CUDA_CHECK(cudaMemset(d_C, 0, bytes));
 
-    multiply_matrix_original(A, B, CC, N);
-    double checksum_CC = checksum(CC, N);
-    printf("Check checksum: %f\n", checksum_CC);
+    /* Time the kernel with CUDA events (higher resolution than wall clock).
+     * This is directly comparable to:
+     *   - omp_get_wtime around matmul in the serial/OpenMP codes
+     *   - MPI_Wtime around matmul in the MPI code
+     * i.e., we time only the compute kernel, not allocation or data movement.
+     */
+    cudaEvent_t start, stop;
+    float  elapsed_ms = 0.0f;
+    double elapsed_s  = 0.0;
 
+    CUDA_CHECK(cudaEventCreate(&start));
+    CUDA_CHECK(cudaEventCreate(&stop));
+
+    /* Launch: <<<num_blocks, THREADS_PER_BLOCK>>> */
+    CUDA_CHECK(cudaEventRecord(start));
+    matmul_stride<<<num_blocks, THREADS_PER_BLOCK>>>(d_A, d_B, d_C, N);
+    CUDA_CHECK(cudaGetLastError());
+    CUDA_CHECK(cudaEventRecord(stop));
+    CUDA_CHECK(cudaEventSynchronize(stop));
+    CUDA_CHECK(cudaEventElapsedTime(&elapsed_ms, start, stop));
+
+    elapsed_s = 1e-3 * (double)elapsed_ms;
+
+    /* Copy result back to host */
+    CUDA_CHECK(cudaMemcpy(C, d_C, bytes, cudaMemcpyDeviceToHost));
+
+    /* Checksum for correctness comparison with CPU/MPI versions */
+    double cs = checksum(C, N);
+    printf("Time (s):  %.6f\n", elapsed_s);
+    printf("Checksum(C): %.12e\n", cs);
+
+    /* Clean up device resources */
+    CUDA_CHECK(cudaFree(d_A));
+    CUDA_CHECK(cudaFree(d_B));
+    CUDA_CHECK(cudaFree(d_C));
+    CUDA_CHECK(cudaEventDestroy(start));
+    CUDA_CHECK(cudaEventDestroy(stop));
+
+    /* Clean up host resources */
     free(A);
     free(B);
     free(C);
-    free(CC);
-
-    //Free GPU memory
-    cudaFree(d_A);
-    cudaFree(d_B);
-    cudaFree(d_C);
 
     return 0;
 }

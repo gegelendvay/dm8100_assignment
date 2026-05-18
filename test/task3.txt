@@ -1,0 +1,354 @@
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 148, Block (threads) = 128
+Running ./build/task3 1024 1 (100 times)...
+Average time   : 0.004989s
+Min time       : 0.004958s
+Max time       : 0.005196s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 296, Block (threads) = 128
+Running ./build/task3 1024 2 (100 times)...
+Average time   : 0.002645s
+Min time       : 0.002615s
+Max time       : 0.002887s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 444, Block (threads) = 128
+Running ./build/task3 1024 3 (100 times)...
+Average time   : 0.001859s
+Min time       : 0.001831s
+Max time       : 0.002272s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 1024 4 (100 times)...
+Average time   : 0.001461s
+Min time       : 0.001427s
+Max time       : 0.001908s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 148, Block (threads) = 128
+Running ./build/task3 2048 1 (100 times)...
+Average time   : 0.039304s
+Min time       : 0.039258s
+Max time       : 0.039508s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 296, Block (threads) = 128
+Running ./build/task3 2048 2 (100 times)...
+Average time   : 0.020301s
+Min time       : 0.020264s
+Max time       : 0.020449s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 444, Block (threads) = 128
+Running ./build/task3 2048 3 (100 times)...
+Average time   : 0.013760s
+Min time       : 0.013720s
+Max time       : 0.013889s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 2048 4 (100 times)...
+Average time   : 0.010988s
+Min time       : 0.010949s
+Max time       : 0.011096s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 148, Block (threads) = 128
+Running ./build/task3 4096 1 (100 times)...
+Average time   : 0.712482s
+Min time       : 0.711376s
+Max time       : 0.728230s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 296, Block (threads) = 128
+Running ./build/task3 4096 2 (100 times)...
+Average time   : 0.356068s
+Min time       : 0.355794s
+Max time       : 0.356341s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 444, Block (threads) = 128
+Running ./build/task3 4096 3 (100 times)...
+Average time   : 0.238384s
+Min time       : 0.238193s
+Max time       : 0.238673s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 4096 4 (100 times)...
+Average time   : 0.178875s
+Min time       : 0.178705s
+Max time       : 0.179056s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 148, Block (threads) = 128
+Running ./build/task3 8192 1 (100 times)...
+Average time   : 6.002107s
+Min time       : 6.001602s
+Max time       : 6.002721s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 296, Block (threads) = 128
+Running ./build/task3 8192 2 (100 times)...
+Average time   : 2.998679s
+Min time       : 2.998357s
+Max time       : 2.999035s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 444, Block (threads) = 128
+Running ./build/task3 8192 3 (100 times)...
+Average time   : 1.992197s
+Min time       : 1.991828s
+Max time       : 1.992547s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 8192 4 (100 times)...
+Average time   : 1.492445s
+Min time       : 1.492100s
+Max time       : 1.492852s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 18, Block (threads) = 128
+Running ./build/task3 1024 1 (100 times)...
+Average time   : 0.037968s
+Min time       : 0.037873s
+Max time       : 0.038344s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 36, Block (threads) = 128
+Running ./build/task3 1024 2 (100 times)...
+Average time   : 0.019387s
+Min time       : 0.019297s
+Max time       : 0.020183s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 54, Block (threads) = 128
+Running ./build/task3 1024 3 (100 times)...
+Average time   : 0.013122s
+Min time       : 0.013030s
+Max time       : 0.013483s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 72, Block (threads) = 128
+Running ./build/task3 1024 4 (100 times)...
+Average time   : 0.010311s
+Min time       : 0.010243s
+Max time       : 0.010606s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 18, Block (threads) = 128
+Running ./build/task3 2048 1 (100 times)...
+Average time   : 0.641456s
+Min time       : 0.641214s
+Max time       : 0.641877s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 36, Block (threads) = 128
+Running ./build/task3 2048 2 (100 times)...
+Average time   : 0.320630s
+Min time       : 0.320472s
+Max time       : 0.320863s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 54, Block (threads) = 128
+Running ./build/task3 2048 3 (100 times)...
+Average time   : 0.213969s
+Min time       : 0.213723s
+Max time       : 0.214273s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 72, Block (threads) = 128
+Running ./build/task3 2048 4 (100 times)...
+Average time   : 0.160528s
+Min time       : 0.160365s
+Max time       : 0.160730s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 18, Block (threads) = 128
+Running ./build/task3 4096 1 (100 times)...
+Average time   : 5.243005s
+Min time       : 5.241787s
+Max time       : 5.244360s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 36, Block (threads) = 128
+Running ./build/task3 4096 2 (100 times)...
+Average time   : 2.610076s
+Min time       : 2.609482s
+Max time       : 2.610584s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 54, Block (threads) = 128
+Running ./build/task3 4096 3 (100 times)...
+Average time   : 1.743498s
+Min time       : 1.742900s
+Max time       : 1.744066s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 72, Block (threads) = 128
+Running ./build/task3 4096 4 (100 times)...
+Average time   : 1.303912s
+Min time       : 1.303625s
+Max time       : 1.304324s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 18, Block (threads) = 128
+Running ./build/task3 8192 1 (100 times)...
+Average time   : 42.599354s
+Min time       : 42.580809s
+Max time       : 42.612867s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 36, Block (threads) = 128
+Running ./build/task3 8192 2 (100 times)...
+Average time   : 21.227369s
+Min time       : 21.219908s
+Max time       : 21.232553s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 54, Block (threads) = 128
+Running ./build/task3 8192 3 (100 times)...
+Average time   : 14.104342s
+Min time       : 14.099861s
+Max time       : 14.108570s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 18, Grid (blocks) = 72, Block (threads) = 128
+Running ./build/task3 8192 4 (100 times)...
+Average time   : 10.579220s
+Min time       : 10.569632s
+Max time       : 10.584091s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 148, Block (threads) = 128
+Running ./build/task3 8192 1 (50 times)...
+Average time   : 6.004133s
+Min time       : 5.999842s
+Max time       : 6.008289s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 296, Block (threads) = 128
+Running ./build/task3 8192 2 (50 times)...
+Average time   : 2.990730s
+Min time       : 2.990168s
+Max time       : 2.993151s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 444, Block (threads) = 128
+Running ./build/task3 8192 3 (50 times)...
+Average time   : 1.993634s
+Min time       : 1.993313s
+Max time       : 1.993915s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 8192 4 (50 times)...
+Average time   : 1.492884s
+Min time       : 1.492585s
+Max time       : 1.493464s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 740, Block (threads) = 128
+Running ./build/task3 8192 5 (50 times)...
+Average time   : 1.193614s
+Min time       : 1.193426s
+Max time       : 1.193847s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 1024 4 (50 times)...
+Average time   : 0.001445s
+Min time       : 0.001420s
+Max time       : 0.001480s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 2048 4 (50 times)...
+Average time   : 0.010997s
+Min time       : 0.010954s
+Max time       : 0.011146s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 4096 4 (50 times)...
+Average time   : 0.178826s
+Min time       : 0.178662s
+Max time       : 0.178995s
+Last checksum  : 1.683802435905e+10
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 8192 4 (50 times)...
+Average time   : 1.492861s
+Min time       : 1.492594s
+Max time       : 1.493227s
+Last checksum  : 1.347041707297e+11
+==================================================
+1 GPU NVIDIA B200 - SMs on device = 148, Grid (blocks) = 592, Block (threads) = 128
+Running ./build/task3 12288 4 (50 times)...
+Average time   : 5.221930s
+Min time       : 5.220986s
+Max time       : 5.223021s
+Last checksum  : 4.546264954497e+11
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana1 1024 (50 times)...
+Average time   : 0.000724s
+Min time       : 0.000700s
+Max time       : 0.000754s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana2 1024 (50 times)...
+Average time   : 0.000623s
+Min time       : 0.000596s
+Max time       : 0.000665s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana1 2048 (50 times)...
+Average time   : 0.000757s
+Min time       : 0.000700s
+Max time       : 0.002358s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana2 2048 (50 times)...
+Average time   : 0.000618s
+Min time       : 0.000591s
+Max time       : 0.000695s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana1 4096 (50 times)...
+Average time   : 0.000726s
+Min time       : 0.000698s
+Max time       : 0.000762s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana2 4096 (50 times)...
+Average time   : 0.000622s
+Min time       : 0.000592s
+Max time       : 0.000691s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana1 8192 (50 times)...
+Average time   : 0.000729s
+Min time       : 0.000700s
+Max time       : 0.000819s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana2 8192 (50 times)...
+Average time   : 0.000623s
+Min time       : 0.000592s
+Max time       : 0.000652s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana1 12288 (50 times)...
+Average time   : 0.000725s
+Min time       : 0.000702s
+Max time       : 0.000802s
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3_ana2 12288 (50 times)...
+Average time   : 0.000621s
+Min time       : 0.000592s
+Max time       : 0.000651s
+==================================================

@@ -1,11 +1,483 @@
-Running ./build/task1 (100 times)...
-
+matmul_omp - 16 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.920748s
+Min time       : 0.795711s
+Max time       : 1.080485s
+Last checksum  : 2.629676423296e+08
 ==================================================
-Task: 1
-Command: ./build/task1
-Samples: 100/100
-Average time: 0.108342s
-Min time:     0.088752s
-Max time:     0.135847s
-Last checksum: 2.629676423296e+08
+matmul_omp_blocked - 16 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.469148s
+Min time       : 0.393100s
+Max time       : 0.571464s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 16 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.221372s
+Min time       : 0.102805s
+Max time       : 0.361933s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_blas - 64 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.061192s
+Min time       : 0.054015s
+Max time       : 0.068560s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp - 64 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.795429s
+Min time       : 0.672995s
+Max time       : 0.879789s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_blocked - 64 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.148858s
+Min time       : 0.100932s
+Max time       : 0.185818s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_blocked - 16 vCPU
+Running ./build/task1 2048 (100 times)...
+Average time   : 1.740980s
+Min time       : 1.668540s
+Max time       : 1.901109s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_blas - 64 vCPU
+Running ./build/task1 2048 (100 times)...
+Average time   : 0.101084s
+Min time       : 0.081938s
+Max time       : 0.151200s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_blocked - 64 vCPU
+Running ./build/task1 2048 (100 times)...
+Average time   : 0.517147s
+Min time       : 0.472424s
+Max time       : 0.568587s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_blocked - 16 vCPU
+Running ./build/task1 4096 (100 times)...
+Average time   : 14.179283s
+Min time       : 11.907934s
+Max time       : 105.434330s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_blas - 64 vCPU
+Running ./build/task1 4096 (100 times)...
+Average time   : 0.113516s
+Min time       : 0.096586s
+Max time       : 0.135809s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_blocked - 64 vCPU
+Running ./build/task1 4096 (100 times)...
+Average time   : 3.486649s
+Min time       : 3.403178s
+Max time       : 3.570464s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_blas - 64 vCPU
+Running ./build/task1 8192 (100 times)...
+Average time   : 0.486047s
+Min time       : 0.422150s
+Max time       : 0.635718s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_blocked - 64 vCPU
+Running ./build/task1 8192 (100 times)...
+Average time   : 27.409970s
+Min time       : 25.288278s
+Max time       : 64.182557s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 24 vCPU
+Running ./build/task1 8192 (100 times)...
+Average time   : 97.354699s
+Min time       : 86.374400s
+Max time       : 122.557888s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 24 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.119990s
+Min time       : 0.060727s
+Max time       : 0.195995s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_blocked - 24 vCPU
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.285101s
+Min time       : 0.151692s
+Max time       : 0.397204s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_blocked - 24 vCPU
+Running ./build/task1 2048 (100 times)...
+Average time   : 3.118710s
+Min time       : 1.502461s
+Max time       : 3.650046s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 16
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.015106s
+Min time       : 0.012763s
+Max time       : 0.026528s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 16
+Running ./build/task1 2048 (100 times)...
+Average time   : 0.164542s
+Min time       : 0.141094s
+Max time       : 0.200230s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 16
+Running ./build/task1 4096 (100 times)...
+Average time   : 3.478481s
+Min time       : 2.881222s
+Max time       : 4.353385s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 16
+Running ./build/task1 8192 (100 times)...
+Average time   : 24.147118s
+Min time       : 20.603718s
+Max time       : 28.252684s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 24
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.012431s
+Min time       : 0.010483s
+Max time       : 0.018111s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 24
+Running ./build/task1 2048 (100 times)...
+Average time   : 0.125036s
+Min time       : 0.093151s
+Max time       : 0.168664s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 24
+Running ./build/task1 4096 (100 times)...
+Average time   : 3.187586s
+Min time       : 2.858193s
+Max time       : 4.077107s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 24
+Running ./build/task1 8192 (100 times)...
+Average time   : 20.281216s
+Min time       : 17.325430s
+Max time       : 24.994937s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 32
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.011093s
+Min time       : 0.009027s
+Max time       : 0.014958s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 32
+Running ./build/task1 2048 (100 times)...
+Average time   : 0.100734s
+Min time       : 0.084745s
+Max time       : 0.141041s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 32
+Running ./build/task1 4096 (100 times)...
+Average time   : 2.931146s
+Min time       : 2.608350s
+Max time       : 3.810248s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 32
+Running ./build/task1 8192 (100 times)...
+Average time   : 18.395650s
+Min time       : 13.291185s
+Max time       : 25.122905s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 48
+Running ./build/task1 1024 (100 times)...
+Average time   : 0.009894s
+Min time       : 0.008391s
+Max time       : 0.012084s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 48
+Running ./build/task1 2048 (100 times)...
+Average time   : 0.084691s
+Min time       : 0.067404s
+Max time       : 0.112737s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 48
+Running ./build/task1 4096 (100 times)...
+Average time   : 3.005640s
+Min time       : 2.125084s
+Max time       : 3.358705s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_THREADS = 48
+Running ./build/task1 8192 (100 times)...
+Average time   : 16.424367s
+Min time       : 11.145842s
+Max time       : 21.444569s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 1
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.154669s
+Min time       : 0.144569s
+Max time       : 0.168974s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 1
+Running ./build/task1 2048 (50 times)...
+Average time   : 1.529915s
+Min time       : 1.465800s
+Max time       : 1.758764s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 1
+Running ./build/task1 4096 (50 times)...
+Average time   : 23.590915s
+Min time       : 22.363290s
+Max time       : 27.208408s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 1
+Running ./build/task1 8192 (50 times)...
+Average time   : 184.831581s
+Min time       : 181.131622s
+Max time       : 196.770351s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 2
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.083439s
+Min time       : 0.076704s
+Max time       : 0.091447s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 2
+Running ./build/task1 2048 (50 times)...
+Average time   : 0.943513s
+Min time       : 0.776590s
+Max time       : 1.380130s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 2
+Running ./build/task1 4096 (50 times)...
+Average time   : 13.401344s
+Min time       : 12.890277s
+Max time       : 17.163981s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 2
+Running ./build/task1 8192 (50 times)...
+Average time   : 113.518914s
+Min time       : 100.294470s
+Max time       : 128.582512s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 4
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.045447s
+Min time       : 0.040988s
+Max time       : 0.070261s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 4
+Running ./build/task1 2048 (50 times)...
+Average time   : 0.535733s
+Min time       : 0.437046s
+Max time       : 0.658499s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 4
+Running ./build/task1 4096 (50 times)...
+Average time   : 8.118061s
+Min time       : 6.814477s
+Max time       : 9.634138s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 4
+Running ./build/task1 8192 (50 times)...
+Average time   : 68.634289s
+Min time       : 55.650779s
+Max time       : 74.546341s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 8
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.024886s
+Min time       : 0.022142s
+Max time       : 0.034280s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 8
+Running ./build/task1 2048 (50 times)...
+Average time   : 0.323823s
+Min time       : 0.269299s
+Max time       : 0.361339s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 8
+Running ./build/task1 4096 (50 times)...
+Average time   : 4.941680s
+Min time       : 4.291407s
+Max time       : 5.910297s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 8
+Running ./build/task1 8192 (50 times)...
+Average time   : 41.191042s
+Min time       : 34.829084s
+Max time       : 60.413275s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 16
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.015598s
+Min time       : 0.012967s
+Max time       : 0.017809s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 16
+Running ./build/task1 2048 (50 times)...
+Average time   : 0.182915s
+Min time       : 0.154404s
+Max time       : 0.213467s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 16
+Running ./build/task1 4096 (50 times)...
+Average time   : 3.805886s
+Min time       : 3.322676s
+Max time       : 4.919933s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 16
+Running ./build/task1 8192 (50 times)...
+Average time   : 30.510009s
+Min time       : 23.661675s
+Max time       : 41.642648s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 24
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.013300s
+Min time       : 0.011676s
+Max time       : 0.019412s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 24
+Running ./build/task1 1170 (50 times)...
+Average time   : 0.018485s
+Min time       : 0.016036s
+Max time       : 0.024871s
+Last checksum  : 3.926814200251e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 24
+Running ./build/task1 2048 (50 times)...
+Average time   : 0.124189s
+Min time       : 0.108906s
+Max time       : 0.165847s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 24
+Running ./build/task1 4096 (50 times)...
+Average time   : 3.976374s
+Min time       : 2.803634s
+Max time       : 4.887358s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 24
+Running ./build/task1 8192 (50 times)...
+Average time   : 26.090992s
+Min time       : 19.409162s
+Max time       : 34.968721s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 32
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.013704s
+Min time       : 0.010840s
+Max time       : 0.019159s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 32
+Running ./build/task1 1288 (50 times)...
+Average time   : 0.023532s
+Min time       : 0.016953s
+Max time       : 0.033080s
+Last checksum  : 5.236305015778e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 32
+Running ./build/task1 2048 (50 times)...
+Average time   : 0.160868s
+Min time       : 0.083890s
+Max time       : 0.303860s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 32
+Running ./build/task1 4096 (50 times)...
+Average time   : 3.172847s
+Min time       : 2.249632s
+Max time       : 4.236534s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 32
+Running ./build/task1 8192 (50 times)...
+Average time   : 18.599801s
+Min time       : 12.278654s
+Max time       : 24.897419s
+Last checksum  : 1.347041707297e+11
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 48
+Running ./build/task1 1024 (50 times)...
+Average time   : 0.010044s
+Min time       : 0.008376s
+Max time       : 0.014211s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 48
+Running ./build/task1 1463 (50 times)...
+Average time   : 0.021985s
+Min time       : 0.019556s
+Max time       : 0.028447s
+Last checksum  : 7.675759077173e+08
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 48
+Running ./build/task1 2048 (50 times)...
+Average time   : 0.103879s
+Min time       : 0.068158s
+Max time       : 0.276129s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 48
+Running ./build/task1 4096 (50 times)...
+Average time   : 3.196730s
+Min time       : 2.040678s
+Max time       : 3.485065s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 48 vCPU, OMP_NUM_THREADS = 48
+Running ./build/task1 8192 (50 times)...
+Average time   : 18.481105s
+Min time       : 12.576653s
+Max time       : 26.578226s
+Last checksum  : 1.347041707297e+11
 ==================================================
