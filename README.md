@@ -22,8 +22,8 @@ source ~/.bashrc
 
 > [!IMPORTANT]  
 > **Operating System:** Ubuntu 24.04  
-> **Platform:** UCloud (https://docs.cloud.sdu.dk/Apps/terminal.html)
-> **GPU:** NVIDIA B200  
+> **Platform:** UCloud ([documentation](https://docs.cloud.sdu.dk/Apps/terminal.html))  
+> **GPU:** NVIDIA B200
 
 ## Usage
 Compile and execute the files using the commands specified in each file's header.
