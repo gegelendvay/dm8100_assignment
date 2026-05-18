@@ -352,3 +352,66 @@ Average time   : 0.000621s
 Min time       : 0.000592s
 Max time       : 0.000651s
 ==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 8
+Running ./task3_v2 1024 (100 times)...
+Average time   : 0.000544s
+Min time       : 0.000531s
+Max time       : 0.000568s
+Last checksum  : 2.683337920000e+08
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 16
+Running ./task3_v2 1024 (100 times)...
+Average time   : 0.000394s
+Min time       : 0.000376s
+Max time       : 0.000423s
+Last checksum  : 2.683337920000e+08
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 32
+Running ./task3_v2 1024 (100 times)...
+Average time   : 0.000363s
+Min time       : 0.000343s
+Max time       : 0.000445s
+Last checksum  : 2.683337920000e+08
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 8
+Running ./task3_v2 2048 (100 times)...
+Average time   : 0.003198s
+Min time       : 0.003179s
+Max time       : 0.003356s
+Last checksum  : 2.147310208000e+09
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 16
+Running ./task3_v2 2048 (100 times)...
+Average time   : 0.002064s
+Min time       : 0.002048s
+Max time       : 0.002093s
+Last checksum  : 2.147310208000e+09
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 32
+Running ./task3_v2 2048 (100 times)...
+Average time   : 0.001845s
+Min time       : 0.001827s
+Max time       : 0.001928s
+Last checksum  : 2.147310208000e+09
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 8
+Running ./task3_v2 4096 (100 times)...
+Average time   : 0.024170s
+Min time       : 0.024138s
+Max time       : 0.024299s
+Last checksum  : 1.717991628800e+10
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 16
+Running ./task3_v2 4096 (100 times)...
+Average time   : 0.015170s
+Min time       : 0.015134s
+Max time       : 0.015405s
+Last checksum  : 1.717991628800e+10
+==================================================
+1 GPU NVIDIA B200 - TILE_WIDTH = 32
+Running ./task3_v2 4096 (100 times)...
+Average time   : 0.013430s
+Min time       : 0.013381s
+Max time       : 0.013563s
+Last checksum  : 1.717991628800e+10
+==================================================
