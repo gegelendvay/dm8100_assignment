@@ -7,10 +7,10 @@ parallelisation paradigms. We will look at shared-memory systems with OpenMP. Di
 memory system with MPI. And accelerator (GPU) systems with CUDA.
 
 ## Setup
-### Installation
 1. Clone the repository by running: `git clone git@github.com:gegelendvay/dm8100_assignment.git`
 2. Install the required packages
 ```
+wget https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2404/x86_64/cuda-keyring_1.1-1_all.deb
 sudo dpkg -i cuda-keyring_1.1-1_all.deb
 sudo apt -y update
 sudo apt -y install cuda-toolkit
