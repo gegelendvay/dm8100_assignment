@@ -22,8 +22,7 @@ source ~/.bashrc
 
 > [!IMPORTANT]  
 > **Operating System:** Ubuntu 24.04  
-> **Platform:** UCloud
-> **Documentation**: https://docs.cloud.sdu.dk/Apps/terminal.html  
+> **Platform:** UCloud (https://docs.cloud.sdu.dk/Apps/terminal.html)
 > **GPU:** NVIDIA B200  
 
 ## Usage
