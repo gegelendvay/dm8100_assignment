@@ -1,26 +1,23 @@
-# dm8100_assignment
-
-- [Overview](#overview)
-- [Setup](#Setup)
-    - [Installation](#installation)
-- [Usage](#usage)
-    - [Starting the Application](#starting-the-application)
-    - [Experiment Outcomes](#experiment-outcomes)
+# HPC assignment
 
 ## Overview
+Matrix-matrix multiplications are a common problem that appears in many codes aimed at
+HPC systems. This project aims to implement a matrix-matrix multiplication using different
+parallelisation paradigms. We will look at shared-memory systems with OpenMP. Distributed
+memory system with MPI. And accelerator (GPU) systems with CUDA.
 
 ## Setup
 ### Installation
 1. Clone the repository by running: `git clone git@github.com:gegelendvay/dm8100_assignment.git`
-2. Install the required packages, such as `OpenMP`, `MPI` and `CUDA`
+2. Install the required packages
+```
+sudo dpkg -i cuda-keyring_1.1-1_all.deb
+sudo apt -y update
+sudo apt -y install cuda-toolkit
+echo 'export PATH=/usr/local/cuda/bin:$PATH' >> ~/.bashrc
+echo 'export LD_LIBRARY_PATH=/usr/local/cuda/lib64:$LD_LIBRARY_PATH' >> ~/.bashrc
+sudo apt -y install libopenblas-dev
+```
 
 ## Usage
-### Starting the Application
-
-> [!IMPORTANT]  
-> Make sure to follow the [installation steps](#installation) before trying to start the application.
-
-1. Compile the C files using `gcc src/taskX.c -o build/taskX` where `X` is the number of the task.
-2. Run the executable with `./build/taskX`
-
-### Experiment Outcomes
+Compile and execute the files using the commands specified in each file's header.
