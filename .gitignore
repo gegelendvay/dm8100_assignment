@@ -56,3 +56,6 @@ dkms.conf
 
 # Ignore executables
 build/task*
+
+# Virtual environment
+.venv
