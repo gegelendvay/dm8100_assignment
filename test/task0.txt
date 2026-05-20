@@ -61,3 +61,31 @@ Min time       : 110.761633s
 Max time       : 141.103322s
 Last checksum  : 1.347041707297e+11
 ==================================================
+matmul_serial - 128 vCPU
+Running ./build/task0 1024 (10 times)...
+Average time   : 3.549842s
+Min time       : 3.276983s
+Max time       : 3.772361s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_serial - 128 vCPU
+Running ./build/task0 2048 (10 times)...
+Average time   : 46.866106s
+Min time       : 46.725557s
+Max time       : 47.008743s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_serial - 128 vCPU
+Running ./build/task0 4096 (10 times)...
+Average time   : 358.066913s
+Min time       : 356.940220s
+Max time       : 359.017223s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_serial - 128 vCPU
+Running ./build/task0 8192 (3 times)...
+Average time   : 3543.207178s
+Min time       : 3436.271832s
+Max time       : 3684.010080s
+Last checksum  : 1.347041707297e+11
+==================================================
