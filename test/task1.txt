@@ -481,3 +481,59 @@ Min time       : 12.576653s
 Max time       : 26.578226s
 Last checksum  : 1.347041707297e+11
 ==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 1
+Running ./build/task1 1024 (3 times)...
+Average time   : 0.169269s
+Min time       : 0.164614s
+Max time       : 0.173771s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 2
+Running ./build/task1 1290 (3 times)...
+Average time   : 0.190036s
+Min time       : 0.183382s
+Max time       : 0.194123s
+Last checksum  : 5.260515553250e+08
+==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 4
+Running ./build/task1 1625 (3 times)...
+Average time   : 0.231282s
+Min time       : 0.219976s
+Max time       : 0.241337s
+Last checksum  : 1.051197731250e+09
+==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 8
+Running ./build/task1 2048 (3 times)...
+Average time   : 0.307162s
+Min time       : 0.296827s
+Max time       : 0.317372s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 16
+Running ./build/task1 2580 (3 times)...
+Average time   : 0.450719s
+Min time       : 0.438365s
+Max time       : 0.469016s
+Last checksum  : 4.208295986604e+09
+==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 32
+Running ./build/task1 3251 (3 times)...
+Average time   : 0.962814s
+Min time       : 0.944592s
+Max time       : 0.991931s
+Last checksum  : 8.419223604075e+09
+==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 64
+Running ./build/task1 4096 (3 times)...
+Average time   : 1.131244s
+Min time       : 1.099616s
+Max time       : 1.173051s
+Last checksum  : 1.683802435905e+10
+==================================================
+matmul_omp_ikj - 128 vCPU, OMP_NUM_THREADS = 128
+Running ./build/task1 5161 (3 times)...
+Average time   : 1.562475s
+Min time       : 1.456195s
+Max time       : 1.652133s
+Last checksum  : 3.368415387544e+10
+==================================================

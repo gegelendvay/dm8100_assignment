@@ -467,3 +467,73 @@ Min time       : 1.120756s
 Max time       : 1.236703s
 Last checksum  : 2.308203295731e+09
 ==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 32 --bind-to core --map-by core ./build/task2 1280 (3 times)...
+Average time   : 0.019781s
+Min time       : 0.019629s
+Max time       : 0.020006s
+Last checksum  : 5.140312435999e+08
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 64 --bind-to core --map-by core ./build/task2 1600 (3 times)...
+Average time   : 0.019821s
+Min time       : 0.019596s
+Max time       : 0.020130s
+Last checksum  : 1.003622400007e+09
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 32 --bind-to core --map-by core ./build/task2 1312 (3 times)...
+Average time   : 0.020263s
+Min time       : 0.019934s
+Max time       : 0.020724s
+Last checksum  : 5.533056272483e+08
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 64 --bind-to core --map-by core ./build/task2 1664 (3 times)...
+Average time   : 0.022786s
+Min time       : 0.022324s
+Max time       : 0.023402s
+Last checksum  : 1.129300843498e+09
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 96 --bind-to core --map-by core ./build/task2 1920 (3 times)...
+Average time   : 0.037412s
+Min time       : 0.019005s
+Max time       : 0.068817s
+Last checksum  : 1.734068964401e+09
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 96 --bind-to core --map-by core ./build/task2 1824 (3 times)...
+Average time   : 0.034547s
+Min time       : 0.015531s
+Max time       : 0.062867s
+Last checksum  : 1.486686110169e+09
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 128 --bind-to core --map-by core ./build/task2 2048 (3 times)...
+Average time   : 0.062707s
+Min time       : 0.021438s
+Max time       : 0.083444s
+Last checksum  : 2.104738046618e+09
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 16 --bind-to core --map-by core ./build/task2 1024 (3 times)...
+Average time   : 0.016542s
+Min time       : 0.016313s
+Max time       : 0.016921s
+Last checksum  : 2.629676423296e+08
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 1 --bind-to core --map-by core ./build/task2 406 (3 times)...
+Average time   : 0.008453s
+Min time       : 0.008380s
+Max time       : 0.008570s
+Last checksum  : 1.639257784300e+07
+==================================================
+matmul_local_ikj_blocked - 2 nodes 48 vcpu
+Running mpirun -np 1 --bind-to core --map-by core ./build/task2 407 (3 times)...
+Average time   : 0.009150s
+Min time       : 0.009061s
+Max time       : 0.009211s
+Last checksum  : 1.651226911200e+07
+==================================================

@@ -415,3 +415,59 @@ Min time       : 0.013381s
 Max time       : 0.013563s
 Last checksum  : 1.717991628800e+10
 ==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 1290 2 (5 times)...
+Average time   : 0.005033s
+Min time       : 0.005020s
+Max time       : 0.005044s
+Last checksum  : 5.260515553250e+08
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 1477 3 (5 times)...
+Average time   : 0.005136s
+Min time       : 0.005132s
+Max time       : 0.005140s
+Last checksum  : 7.897428690814e+08
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 1625 4 (5 times)...
+Average time   : 0.005098s
+Min time       : 0.005086s
+Max time       : 0.005112s
+Last checksum  : 1.051197731250e+09
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 1751 5 (5 times)...
+Average time   : 0.005238s
+Min time       : 0.005183s
+Max time       : 0.005299s
+Last checksum  : 1.315545517800e+09
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 1861 6 (5 times)...
+Average time   : 0.005260s
+Min time       : 0.005257s
+Max time       : 0.005265s
+Last checksum  : 1.579627544200e+09
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 1024 1 (5 times)...
+Average time   : 0.004996s
+Min time       : 0.004987s
+Max time       : 0.005007s
+Last checksum  : 2.629676423296e+08
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 2048 (1 times)...
+Average time   : 0.039352s
+Min time       : 0.039352s
+Max time       : 0.039352s
+Last checksum  : 2.104738046618e+09
+==================================================
+1 GPU NVIDIA B200
+Running ./build/task3 2048 (5 times)...
+Average time   : 0.039352s
+Min time       : 0.039322s
+Max time       : 0.039442s
+Last checksum  : 2.104738046618e+09
+==================================================
