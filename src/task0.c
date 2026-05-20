@@ -34,19 +34,6 @@ static void matmul_serial(const double *A, const double *B, double *C, int N) {
     }
 }
 
-/* Naive serial matrix-matrix multiplication: C = A * B (IKJ order) */
-static void matmul_serial_ikj(const double *A, const double *B, double *C, int N) {
-    memset(C, 0, (size_t)N * N * sizeof(double));
-    for (int i = 0; i < N; ++i) {
-        for (int k = 0; k < N; ++k) {
-            const double a = A[i * N + k];
-            for (int j = 0; j < N; ++j) {
-                C[i * N + j] += a * B[k * N + j];
-            }
-        }
-    }
-}
-
 int main(int argc, char **argv) {
     int N = 1024; /* Default matrix size */
     if (argc >= 2) {
@@ -69,7 +56,7 @@ int main(int argc, char **argv) {
     init_matrix(B, N);
 
     double t0 = omp_get_wtime();
-    matmul_serial_ikj(A, B, C, N);
+    matmul_serial(A, B, C, N);
     double t1 = omp_get_wtime();
 
     double cs = checksum(C, N);
